@@ -18,9 +18,8 @@
                   <label for="checkbox-fill-a1" class="cr"> Recuerdame!</label>
                 </div>
               </div>
-              <button class="btn btn-block btn-primary mb-4" [routerLink]="'/dashboard'">Entrar</button>
-              <p class="mb-2 text-muted">Olvidó su contraseña? <a [routerLink]="['/auth/reset-password']" class="f-w-400">Resetear</a></p>
-              <!-- <p class="mb-0 text-muted">Don’t have an account? <a [routerLink]="['/auth/signup']" class="f-w-400">Signup</a></p> -->
+              <button class="btn btn-block btn-primary mb-4" (click)="signin()">Entrar</button>
+              <p class="mb-2 text-muted">Olvidó su contraseña? <span class="f-w-400" (click)="resetPassword()">Resetear</span></p>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthSigninComponent } from './modules/authentication/auth-signin/auth-signin.component';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { AuthComponent } from './theme/layout/auth/auth.component';
 //import {AuthComponent} from './theme/layout/auth/auth.component';
@@ -7,12 +8,20 @@ import { AuthComponent } from './theme/layout/auth/auth.component';
 const routes: Routes = [
   {
     path: '',
+    component: AuthSigninComponent,
+  },
+  {
+    path: '',
     component: AdminComponent,
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'login',
         pathMatch: 'full',
+      },
+      {
+        path: '',
+        loadChildren: () => import('./modules/authentication/authentication.module').then(module => module.AuthenticationModule)
       },
       {
         path: '',
@@ -57,6 +66,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/authentication/authentication.module').then(module => module.AuthenticationModule)
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: '/dashboard'
   }
 ];
 

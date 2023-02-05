@@ -15,7 +15,7 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 export class SpinnerComponent implements OnDestroy {
   public isSpinnerVisible = true;
   public Spinkit = Spinkit;
-  @Input() public backgroundColor = '#1abc9c';
+  @Input() public backgroundColor = '#1f9ddf';
   @Input() public spinner = Spinkit.skLine;
   constructor(private router: Router, @Inject(DOCUMENT) private document: Document) {
       this.router.events.subscribe(event => {

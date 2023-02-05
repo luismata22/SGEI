@@ -20,6 +20,7 @@ import { NavigationItem } from './theme/layout/admin/navigation/navigation';
 import { AuthComponent } from './theme/layout/auth/auth.component';
 import { ToggleFullScreenDirective } from './theme/shared/full-screen/toggle-full-screen';
 import { ActiveReportsModule } from '@grapecity/activereports-angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ActiveReportsModule } from '@grapecity/activereports-angular';
     NgbDropdownModule,
     NgbTooltipModule,
     NgbButtonsModule,
+    ReactiveFormsModule 
   ],
   providers: [NavigationItem],
   bootstrap: [AppComponent]
