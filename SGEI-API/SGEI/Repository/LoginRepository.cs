@@ -16,13 +16,18 @@ namespace SGEI.Repository
   public class LoginRepository : ILoginRepository
   {
 
+    private readonly SGEIContext _context;
+    public LoginRepository(SGEIContext context)
+    {
+      _context = context;
+    }
+
     public User UserAuthenticate(string userName, string password)
     {
-      LoginContext context = new LoginContext();
-      var users = context.usuarios.ToList();
+      var users = _context.usuarios.ToListAsync();
 
-      if (users.FindAll(x => x.Correo == userName && x.Clave == password).Count > 0)
-        return users.Find(x => x.Correo == userName && x.Clave == password);
+      if (users.Result.ToList().FindAll(x => x.Correo == userName && x.Clave == password).Count > 0)
+        return users.Result.ToList().Find(x => x.Correo == userName && x.Clave == password);
       else
         return null;
     }
