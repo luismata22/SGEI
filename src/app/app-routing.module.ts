@@ -21,10 +21,6 @@ const routes: Routes = [
       },
       {
         path: '',
-        loadChildren: () => import('./modules/authentication/authentication.module').then(module => module.AuthenticationModule)
-      },
-      {
-        path: '',
         loadChildren: () => import('./modules/dashboard/dashboard.module').then(module => module.DashboardModule)
       },
        {

@@ -21,6 +21,7 @@ import { AuthComponent } from './theme/layout/auth/auth.component';
 import { ToggleFullScreenDirective } from './theme/shared/full-screen/toggle-full-screen';
 import { ActiveReportsModule } from '@grapecity/activereports-angular';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
+    HttpClientModule,
     NgbDropdownModule,
     NgbTooltipModule,
     NgbButtonsModule,

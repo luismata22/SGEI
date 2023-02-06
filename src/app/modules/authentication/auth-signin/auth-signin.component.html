@@ -6,20 +6,18 @@
           <div class="col-md-12">
             <div class="card-body">
               <h4 class="mb-3 f-w-400">Inicio de sesión</h4>
-              <div class="input-group mb-3">
-                <input type="email" class="form-control" placeholder="Correo electrónico">
-              </div>
-              <div class="input-group mb-4">
-                <input type="password" class="form-control" placeholder="Contraseña">
-              </div>
-              <div class="form-group text-left mt-2">
-                <div class="checkbox checkbox-primary d-inline">
-                  <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
-                  <label for="checkbox-fill-a1" class="cr"> Recuerdame!</label>
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="input-group mb-3">
+                  <!-- <input type="email" class="form-control" placeholder="Correo electrónico"> -->
+                  <input #username type="email" class="form-control" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" placeholder="correo@electronico.com" formControlName="user" autocomplete="username" required />
                 </div>
-              </div>
-              <button class="btn btn-block btn-primary mb-4" (click)="signin()">Entrar</button>
-              <p class="mb-2 text-muted">Olvidó su contraseña? <span class="f-w-400" (click)="resetPassword()">Resetear</span></p>
+                <div class="input-group mb-4">
+                  <!-- <input type="password" class="form-control" placeholder="Contraseña"> -->
+                  <input #password type="password" class="form-control" placeholder="Contraseña" formControlName="password" autocomplete="current-password" required/>
+                </div>
+                <button class="btn btn-block btn-primary mb-4" [disabled]="!loginForm.valid" type="submit">Ingresar</button>
+              </form>
+              <p class="mb-2 text-muted">Olvidó su contraseña? <span class="link" (click)="resetPassword()">Resetear</span></p>
             </div>
           </div>
         </div>

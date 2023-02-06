@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -34,7 +34,7 @@ namespace SGEI.ApiConfiguration
         /// <summary>
         ///     <para>Authorization Api - OSMMaster API in ASP.NET Core 3.1.</para>
         /// </summary>
-        private const string DocInfoDescription = "CentralIT Api";
+        private const string DocInfoDescription = "SGEI Api";
 
         public static void ConfigureSwagger(this IServiceCollection services)
         {

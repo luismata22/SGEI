@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Luis Mata\\Documents\\Proyectos\\Proyecto - SGEI\\SGEI-API\\SGEI\\SGEI.csproj": {}
+    "C:\\Users\\lmatad\\Documents\\Proyectos\\SGEI\\SGEI-API\\SGEI\\SGEI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Luis Mata\\Documents\\Proyectos\\Proyecto - SGEI\\SGEI-API\\SGEI\\SGEI.csproj": {
+    "C:\\Users\\lmatad\\Documents\\Proyectos\\SGEI\\SGEI-API\\SGEI\\SGEI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Luis Mata\\Documents\\Proyectos\\Proyecto - SGEI\\SGEI-API\\SGEI\\SGEI.csproj",
+        "projectUniqueName": "C:\\Users\\lmatad\\Documents\\Proyectos\\SGEI\\SGEI-API\\SGEI\\SGEI.csproj",
         "projectName": "SGEI",
-        "projectPath": "C:\\Users\\Luis Mata\\Documents\\Proyectos\\Proyecto - SGEI\\SGEI-API\\SGEI\\SGEI.csproj",
-        "packagesPath": "C:\\Users\\Luis Mata\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Luis Mata\\Documents\\Proyectos\\Proyecto - SGEI\\SGEI-API\\SGEI\\obj\\",
+        "projectPath": "C:\\Users\\lmatad\\Documents\\Proyectos\\SGEI\\SGEI-API\\SGEI\\SGEI.csproj",
+        "packagesPath": "C:\\Users\\lmatad\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lmatad\\Documents\\Proyectos\\SGEI\\SGEI-API\\SGEI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Luis Mata\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lmatad\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,7 +26,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.telerik.com/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
@@ -51,6 +53,10 @@
               "target": "Package",
               "version": "[13.0.2, )"
             },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
@@ -58,6 +64,10 @@
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.5, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.26.0, )"
             }
           },
           "imports": [
@@ -66,7 +76,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -78,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
