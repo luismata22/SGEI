@@ -4,7 +4,7 @@ namespace SGEI.Models
 {
     public class User
     {
-      public int Id { get; set; }
+      public long Id { get; set; }
 
       public string Nombres { get; set; }
 
@@ -14,7 +14,7 @@ namespace SGEI.Models
 
       public string Cedula { get; set; }
 
-      public string Activo { get; set; }
+      public  bool Activo { get; set; }
 
       public string Clave { get; set; }
     }

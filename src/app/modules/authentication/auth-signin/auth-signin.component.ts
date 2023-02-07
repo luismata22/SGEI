@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Login } from 'src/app/models/authentication/login';
+import { NotificationService } from '../../utils/notification.service';
 import { AuthService } from '../shared/auth.service';
 import { EncryptService } from '../shared/encrypt.service';
 
@@ -15,7 +16,8 @@ export class AuthSigninComponent implements OnInit {
   constructor(private router: Router,
     private readonly _formBuilder: FormBuilder,
      private encryptService: EncryptService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private notificationService: NotificationService) { }
 
   loginForm: FormGroup;
   loginInvalid: boolean;
@@ -56,13 +58,15 @@ export class AuthSigninComponent implements OnInit {
   private doLogin(credentialsVM: Login) {
     const passwordEncrypt: string = this.encryptService.encrypt(credentialsVM.password, credentialsVM.user);
     this.authService.login(passwordEncrypt, credentialsVM.user, credentialsVM.rememberMe)
-      .then(_ => {
+      .then(data => {
+        console.log(data);
           this.router.navigate(['dashboard']);
           this.loginInvalid = false;
       })
       .catch(error => {
+        console.log(error)
         this.loginInvalid = true;
-        //this._messageService.add({severity: 'error', summary: 'Autenticación', detail: error?.error?.message});
+        this.notificationService.showError("Credenciales inválidad", "Autenticación")
       });
   }
 

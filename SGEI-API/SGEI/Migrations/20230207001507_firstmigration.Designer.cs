@@ -9,7 +9,7 @@ using SGEI.Context;
 namespace SGEI.Migrations
 {
     [DbContext(typeof(SGEIContext))]
-    [Migration("20230206234707_firstmigration")]
+    [Migration("20230207001507_firstmigration")]
     partial class firstmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

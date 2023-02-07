@@ -39,13 +39,13 @@ namespace SGEI.Controllers
     public ActionResult<string> Authenticate(Login model)
     {
       if (string.IsNullOrEmpty(model.User) || string.IsNullOrEmpty(model.Password))
-        return new JsonResult(new User());
+        throw new InvalidCredentialException();
       var passwordDecrypt = EncryptPasswords.DecryptWithAes(model.Password, model.User);
       var encryptPassword = EncryptPasswords.EncryptWithHash(passwordDecrypt);
       var user = _loginRepository.UserAuthenticate(model.User, encryptPassword);
 
       if (user is null)
-        return new JsonResult(new User());
+        throw new InvalidCredentialException();
 
       return new JsonResult(user);
     }

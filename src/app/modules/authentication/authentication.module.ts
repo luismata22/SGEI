@@ -4,6 +4,7 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { AuthSigninComponent } from './auth-signin/auth-signin.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AuthenticationRoutingModule
+    AuthenticationRoutingModule,
+    ToastrModule.forRoot()
   ]
 })
 export class AuthenticationModule { }

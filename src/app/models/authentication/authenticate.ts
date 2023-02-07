@@ -1,11 +1,8 @@
 export class Authenticate{
     id: number;
-    name: string;
-    lastName: string;
-    email: string;
-    imageUrl: string;
-    token: string;
-    type: number;
-    refreshToken: string;
-    rememberMe: boolean;
+    nombres: string;
+    apellidos: string;
+    correo: string;
+    cedula: string;
+    activo: string;
 }
