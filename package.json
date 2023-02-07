@@ -31,7 +31,7 @@
     "ng-click-outside": "^8.0.0",
     "ngx-lightbox": "^2.3.0",
     "ngx-owl-carousel-o": "^5.0.0",
-    "ngx-toastr": "^16.0.2",
+    "ngx-toastr": "^11.2.1",
     "nouislider": "^14.7.0",
     "rxjs": "~6.6.0",
     "screenfull": "^4.2.1",
