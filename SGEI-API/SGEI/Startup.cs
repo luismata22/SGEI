@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SGEI.ApiConfiguration;
 using SGEI.Context;
+using SGEI.Models.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,8 @@ namespace SGEI
       {
         options.UseNpgsql(connectionString);
       });
+
+      services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
       services.AddCors();
       services.AddControllers();

@@ -24,7 +24,7 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.resetPasswordForm = this._formBuilder.group({
-      user: ['', Validators.required],
+      user: [''],
       code: [''],
       password: [''],
       repeatPassword: ['']
@@ -43,14 +43,17 @@ export class ResetPasswordComponent implements OnInit {
   onSubmit() {
     this.resetPasswordInvalid = false;
     if (!this.resulvalid && !this.resulvalidcode) {
+      this.setCodeValidators();
       if (this.resetPasswordForm.valid) {
         try {
           const credentials = new ResetPassword();
           credentials.user = this.resetPasswordForm.controls.user.value;
           this.authService.resetPassword(credentials)
             .then(data => {
-              if (data)
+              if (data){
                 this.resulvalid = data;
+                this.setCodeValidators()
+              }
               else
                 this.notificationService.showError("Ha ocurrido un error", "Error")
             })
@@ -72,6 +75,7 @@ export class ResetPasswordComponent implements OnInit {
             if (data){
               this.resulvalid = false;
               this.resulvalidcode = data;
+              this.setCodeValidators()
             }
             else
               this.notificationService.showError("Ha ocurrido un error", "Error")
@@ -110,6 +114,23 @@ export class ResetPasswordComponent implements OnInit {
       }
     }
 
+  }
+
+  setCodeValidators(){
+    if (!this.resulvalid && !this.resulvalidcode) {
+      this.resetPasswordForm.get('user').setValidators([Validators.required]);
+      this.resetPasswordForm.get('user').updateValueAndValidity()
+    }else if(this.resulvalid && !this.resulvalidcode){
+      this.resetPasswordForm.get('code').setValidators([Validators.required]);
+      this.resetPasswordForm.get('code').updateValueAndValidity()
+    }else{
+      this.resetPasswordForm.get('code').setValidators(null);
+      this.resetPasswordForm.get('password').setValidators([Validators.required]);
+      this.resetPasswordForm.get('repeatPassword').setValidators([Validators.required]);
+      this.resetPasswordForm.get('code').updateValueAndValidity()
+      this.resetPasswordForm.get('password').updateValueAndValidity()
+      this.resetPasswordForm.get('repeatPassword').updateValueAndValidity()
+    }
   }
 
   signin() {

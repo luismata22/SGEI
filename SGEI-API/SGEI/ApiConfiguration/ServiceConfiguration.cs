@@ -7,6 +7,8 @@ using System.Globalization;
 using AutoMapper;
 using SGEI.Interfaces;
 using SGEI.Repository;
+using SGEI.Interfaces.mail;
+using SGEI.Repository.mail;
 
 namespace SGEI.ApiConfiguration
 {
@@ -19,6 +21,9 @@ namespace SGEI.ApiConfiguration
       //services.AddAutoMapper(typeof(Startup));
 
       services.AddTransient<ILoginRepository, LoginRepository>();
+
+      //email
+      services.AddTransient<IMailService, MailService>();
       // Security
 
       //Login

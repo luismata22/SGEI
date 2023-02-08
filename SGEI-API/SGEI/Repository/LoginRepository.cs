@@ -11,6 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using SGEI.Interfaces;
 using System;
+using SGEI.Models.Utils;
+using SGEI.Repository.mail;
+using SGEI.Interfaces.mail;
 
 namespace SGEI.Repository
 {
@@ -18,9 +21,11 @@ namespace SGEI.Repository
   {
 
     private readonly SGEIContext _context;
-    public LoginRepository(SGEIContext context)
+    private readonly IMailService _mailService;
+    public LoginRepository(SGEIContext context, IMailService mailService)
     {
       _context = context;
+      _mailService = mailService;
     }
 
     public User UserAuthenticate(string userName, string password)
@@ -40,6 +45,13 @@ namespace SGEI.Repository
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         var random = new Random();
         var code = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
+
+        var mailRequest = new MailRequest();
+        mailRequest.ToEmail = model.User;
+        mailRequest.Subject = "Código de seguridad (Resstablecer contraseña)";
+        mailRequest.Body = "<html>\r\n    <head>\r\n\r\n    </head>\r\n    <body>\r\n        <p>Hola</p><br>\r\n        <p>Este es el código de seguridad para cambiar la contraseña: " + code + "</p>\r\n    </body>\r\n</html>";
+        _mailService.SendEmailAsync(mailRequest);
+
 
         var users = _context.usuarios.ToListAsync();
         var data = new CodesResetPasswordxUsers()
