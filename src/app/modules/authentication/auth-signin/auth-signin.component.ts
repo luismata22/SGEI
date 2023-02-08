@@ -66,7 +66,7 @@ export class AuthSigninComponent implements OnInit {
       .catch(error => {
         console.log(error)
         this.loginInvalid = true;
-        this.notificationService.showError("Credenciales inválidad", "Autenticación")
+        this.notificationService.showError("Credenciales inválidas", "Autenticación")
       });
   }
 

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, NgZone, OnInit, Out
 import { NextConfig } from 'src/app/app-config';
 import { NavigationItem } from '../navigation';
 import { Location } from '@angular/common';
+import { AuthService } from 'src/app/modules/authentication/shared/auth.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -25,7 +26,8 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   @ViewChild('navbarContent') navbarContent: ElementRef;
   @ViewChild('navbarWrapper') navbarWrapper: ElementRef;
 
-  constructor(public nav: NavigationItem, private zone: NgZone, private location: Location) { 
+  constructor(public nav: NavigationItem, private zone: NgZone, private location: Location,
+    public authService: AuthService) { 
     this.flatConfig = NextConfig.config;
     this.windowWidth = window.innerWidth;
 

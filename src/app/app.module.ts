@@ -22,6 +22,7 @@ import { ToggleFullScreenDirective } from './theme/shared/full-screen/toggle-ful
 import { ActiveReportsModule } from '@grapecity/activereports-angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common
     NgbDropdownModule,
     NgbTooltipModule,
     NgbButtonsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [NavigationItem],
   bootstrap: [AppComponent]

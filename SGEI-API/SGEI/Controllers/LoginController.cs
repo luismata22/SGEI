@@ -9,14 +9,11 @@ using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using SGEI.Interfaces;
 using SGEI.Models;
 using SGEI.Utils;
-using AutoMapper;
 using Microsoft.Extensions.Logging;
 
 namespace SGEI.Controllers
@@ -49,6 +46,32 @@ namespace SGEI.Controllers
 
       return new JsonResult(user);
     }
-    
+
+    [AllowAnonymous]
+    [HttpPost("ResetPassword")]
+    public ActionResult<bool> ResetPassword(ResetPassword model)
+    {
+      bool result = _loginRepository.ResetPassword(model);
+      return new JsonResult(result);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("ValidateCode")]
+    public ActionResult<bool> ValidateCode(ResetPassword model)
+    {
+      bool result = _loginRepository.ValidateCode(model);
+      return new JsonResult(result);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("UpdatePassword")]
+    public ActionResult<bool> UpdatePassword(ResetPassword model)
+    {
+      var passwordDecrypt = EncryptPasswords.DecryptWithAes(model.Password, model.User);
+      var encryptPassword = EncryptPasswords.EncryptWithHash(passwordDecrypt);
+      model.Password = encryptPassword;
+      bool result = _loginRepository.UpdatePassword(model);
+      return new JsonResult(result);
+    }
   }
 }

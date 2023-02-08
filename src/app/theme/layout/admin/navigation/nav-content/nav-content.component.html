@@ -4,7 +4,7 @@
         <div class="main-menu-header">
           <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="User-Profile-Image">
           <div class="user-details" (click)="isNavProfile = !isNavProfile">
-            <span>John Doe</span>
+            <span>{{authService.entityName}}</span>
             <div id="more-details">UX Designer<i class="fa m-l-5" [ngClass]="{'fa-chevron-up': isNavProfile, 'fa-chevron-down': !isNavProfile }"></i></div>
           </div>
         </div>
