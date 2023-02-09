@@ -18,20 +18,14 @@ namespace SGEI.ApiConfiguration
 
     internal static void ConfigureDependencies(this IServiceCollection services)
     {
-      //services.AddAutoMapper(typeof(Startup));
-
+      //Authenticate
       services.AddTransient<ILoginRepository, LoginRepository>();
 
       //email
       services.AddTransient<IMailService, MailService>();
-      // Security
 
-      //Login
-      //services.AddTransient<ILoginService, LoginService>();
-      //services.AddTransient<ILoginRepository, SqlLoginRepository>();
-      //services.AddScoped<IJWTGenerator, JWTGeneratorService>();
-      //services.AddTransient<IConnector, SqlConnector>();
-      //services.AddTransient<IPasswordConfiguration, PasswordConfigurationService>();
+      //Role
+      services.AddTransient<IRoleRepository, RoleRepository>();
     }
 
     internal static void ConfigureLocalization(this IServiceCollection services)

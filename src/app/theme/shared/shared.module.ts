@@ -8,6 +8,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { CardModule } from './components/card/card.module';
 import { CardComponent } from './components/card/card.component';
 import { ActiveReportsModule } from '@grapecity/activereports-angular';
+import { ModalModule } from './components/modal/modal.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -24,7 +25,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReactiveFormsModule,
     BreadcrumbModule,
     CardModule,
-    ActiveReportsModule
+    ActiveReportsModule,
+    ModalModule
   ],
   exports: [
     CommonModule,
@@ -34,7 +36,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SpinnerComponent,
     BreadcrumbModule,
     CardModule,
-    ActiveReportsModule
+    ActiveReportsModule,
+    ModalModule
   ],
   providers: [
     {

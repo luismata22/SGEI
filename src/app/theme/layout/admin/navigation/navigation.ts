@@ -44,6 +44,13 @@ const NavigationItems = [
             type: 'item',
             icon: 'feather icon-user',
             url: '/users',
+          },
+          {
+            id: 'roles',
+            title: 'Roles',
+            type: 'item',
+            icon: 'feather icon-user',
+            url: '/roles',
           }
         ]
       }

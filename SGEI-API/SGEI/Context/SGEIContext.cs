@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SGEI.Models;
 using SGEI.Models.Authenticate;
+using SGEI.Models.Security;
 
 namespace SGEI.Context
 {
@@ -10,9 +11,12 @@ namespace SGEI.Context
     {
 
     }
-
+    //Usuarios
     public DbSet<User> usuarios => Set<User>();
-
+    //Codigos de resetar contrasenas por usuario
     public DbSet<CodesResetPasswordxUsers> codigoresetearpasswordxusuario => Set<CodesResetPasswordxUsers>();
+    //Permisos
+    public DbSet<Permission> permisos => Set<Permission>();
+
   }
 }

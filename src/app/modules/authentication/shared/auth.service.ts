@@ -107,12 +107,12 @@ export class AuthService {
   }
 
   resetPassword(data: ResetPassword) {
-    return this.httpClient.post<boolean>(`${environment.API_BASE_URL}/Login/ResetPassword`, data)
+    return this.httpClient.post<number>(`${environment.API_BASE_URL}/Login/ResetPassword`, data)
       .toPromise()
   }
 
   validateCode(data: ResetPassword) {
-    return this.httpClient.post<boolean>(`${environment.API_BASE_URL}/Login/ValidateCode`, data)
+    return this.httpClient.post<number>(`${environment.API_BASE_URL}/Login/ValidateCode`, data)
       .toPromise()
   }
 

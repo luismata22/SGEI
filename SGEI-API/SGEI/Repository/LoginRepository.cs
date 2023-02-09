@@ -38,56 +38,76 @@ namespace SGEI.Repository
         return null;
     }
 
-    public bool ResetPassword(ResetPassword model)
+    public long ResetPassword(ResetPassword model)
     {
       try
       {
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        var random = new Random();
-        var code = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
-
-        var mailRequest = new MailRequest();
-        mailRequest.ToEmail = model.User;
-        mailRequest.Subject = "Código de seguridad (Resstablecer contraseña)";
-        mailRequest.Body = "<html>\r\n    <head>\r\n\r\n    </head>\r\n    <body>\r\n        <p>Hola</p><br>\r\n        <p>Este es el código de seguridad para cambiar la contraseña: " + code + "</p>\r\n    </body>\r\n</html>";
-        _mailService.SendEmailAsync(mailRequest);
-
-
         var users = _context.usuarios.ToListAsync();
-        var data = new CodesResetPasswordxUsers()
+
+        if(users.Result.FindAll(x => x.Correo == model.User).Count > 0)
         {
-          IdUsuario = users.Result.ToList().Find(x => x.Correo == model.User).Id,
-          Codigo = code,
-          Activo = true
-        };
-        _context.codigoresetearpasswordxusuario.Add(data);
-        _context.SaveChanges();
-        return true;
+          const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+          var random = new Random();
+          var code = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
+
+          var mailRequest = new MailRequest();
+          mailRequest.ToEmail = model.User;
+          mailRequest.Subject = "Código de seguridad (Resstablecer contraseña)";
+          mailRequest.Body = "<html>\r\n    <head>\r\n\r\n    </head>\r\n    <body>\r\n        <p>Hola</p><br>\r\n        <p>Este es el código de seguridad para cambiar la contraseña: " + code + "</p>\r\n    </body>\r\n</html>";
+          _mailService.SendEmailAsync(mailRequest);
+
+
+          var user = users.Result.ToList().Find(x => x.Correo == model.User);
+          var data = new CodesResetPasswordxUsers()
+          {
+            IdUsuario = user.Id,
+            Codigo = code,
+            Activo = true
+          };
+          if (_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.IdUsuario == user.Id && x.Activo == true).Count > 0)
+          {
+            var codeActive = _context.codigoresetearpasswordxusuario.ToList().Find(x => x.IdUsuario == user.Id && x.Activo == true);
+            codeActive.Activo = false;
+            _context.codigoresetearpasswordxusuario.Add(codeActive);
+            _context.Entry(codeActive).State = EntityState.Modified;
+            _context.SaveChanges();
+          }
+
+          _context.codigoresetearpasswordxusuario.Add(data);
+          _context.SaveChanges();
+          return 1; //success
+        }
+        else
+        {
+          return -1; //no exist user
+        }
+        
+        
       }
       catch (Exception ex)
       {
-        return false;
+        return -2; //error general
       }
       
     }
 
-    public bool ValidateCode(ResetPassword model)
+    public long ValidateCode(ResetPassword model)
     {
       try
       {
         var users = _context.usuarios.ToListAsync();
         if(_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.IdUsuario == users.Result.ToList().Find(x => x.Correo == model.User).Id && x.Codigo == model.Code && x.Activo == true).Count > 0)
         {
-          return true;
+          return 1; //success
         }
         else
         {
-          return false;
+          return -1; //code not valid
         }
       }
       catch (Exception ex)
       {
-        return false;
+        return -2; //error general
       }
 
     }

@@ -1,1 +1,106 @@
-<p>role-list works!</p>
+<div class="row">
+    <div class="col-sm-12">
+        <app-card cardTitle="Filtro">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" class="form-control" id="name">
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="status">Estatus</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option value="-1">Todos</option>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+                </div>
+                <div class="col-md-12" style="text-align: right;">
+                    <button type="button" class="btn btn-primary" style="margin-top: 5px;">Buscar</button>
+                    <button type="button" class="btn btn-success" (click)="modalDefault.show()"
+                        style="margin-top: 5px; margin-left: 10px;">Nuevo</button>
+                </div>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-sm-12">
+        <app-card cardTitle="Roles">
+            <!--<div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Correo electrónico</th>
+              <th>Cédula</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+              <td>1212121</td>
+            </tr>
+            <tr>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+              <td>12334434</td>
+            </tr>
+            <tr>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+              <td>1212122</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>-->
+        </app-card>
+    </div>
+</div>
+
+<app-ui-modal #modalDefault>
+    <div class="app-modal-header">
+        <h5 class="modal-title">Nuevo rol</h5>
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+            (click)="modalDefault.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="app-modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" class="form-control" id="name">
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="name">Descripción</label>
+                    <input type="text" class="form-control" id="description">
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                </div>
+            </div>
+            <div class="col-md-12">
+                <h5>Permisos</h5>
+                <hr>
+            </div>
+            <div class="col-md-3" *ngFor="let permission of permissionsList">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                    <label class="form-check-label" for="gridCheck1">{{permission.nombre}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-primary" (click)="saveRole()">Guardar</button>
+    </div>
+</app-ui-modal>

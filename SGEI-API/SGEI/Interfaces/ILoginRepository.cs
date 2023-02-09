@@ -7,9 +7,9 @@ namespace SGEI.Interfaces
   {
     User UserAuthenticate(string userName, string password);
 
-    bool ResetPassword(ResetPassword model);
+    long ResetPassword(ResetPassword model);
 
-    bool ValidateCode(ResetPassword model);
+    long ValidateCode(ResetPassword model);
 
     bool UpdatePassword(ResetPassword model);
   }

@@ -50,10 +50,12 @@ export class ResetPasswordComponent implements OnInit {
           credentials.user = this.resetPasswordForm.controls.user.value;
           this.authService.resetPassword(credentials)
             .then(data => {
-              if (data){
-                this.resulvalid = data;
+              if (data > 0) {
+                this.resulvalid = true;
                 this.setCodeValidators()
               }
+              else if (data == -1)
+                this.notificationService.showError("Correo no registrado", "Error")
               else
                 this.notificationService.showError("Ha ocurrido un error", "Error")
             })
@@ -72,11 +74,13 @@ export class ResetPasswordComponent implements OnInit {
         credentials.code = this.resetPasswordForm.controls.code.value;
         this.authService.validateCode(credentials)
           .then(data => {
-            if (data){
+            if (data > 0) {
               this.resulvalid = false;
-              this.resulvalidcode = data;
+              this.resulvalidcode = true;
               this.setCodeValidators()
             }
+            else if (data == -1)
+                this.notificationService.showError("Código no válido", "Error")
             else
               this.notificationService.showError("Ha ocurrido un error", "Error")
           })
@@ -88,14 +92,14 @@ export class ResetPasswordComponent implements OnInit {
         this.resetPasswordInvalid = true;
       }
     } else {
-      if(this.resetPasswordForm.controls.password.value == this.resetPasswordForm.controls.repeatPassword.value){
+      if (this.resetPasswordForm.controls.password.value == this.resetPasswordForm.controls.repeatPassword.value) {
         try {
           const credentials = new ResetPassword();
           credentials.user = this.resetPasswordForm.controls.user.value;
           credentials.password = this.encryptService.encrypt(this.resetPasswordForm.controls.password.value, this.resetPasswordForm.controls.user.value);
           this.authService.updatePassword(credentials)
             .then(data => {
-              if (data){
+              if (data) {
                 this.notificationService.showSuccess("Contraseña cambiada exitosamente", "Éxito")
                 this.router.navigate(['login'])
               }
@@ -109,21 +113,21 @@ export class ResetPasswordComponent implements OnInit {
         } catch (err) {
           this.resetPasswordInvalid = true;
         }
-      }else{
+      } else {
         this.notificationService.showError("Las contraseñas no son iguales", "Error")
       }
     }
 
   }
 
-  setCodeValidators(){
+  setCodeValidators() {
     if (!this.resulvalid && !this.resulvalidcode) {
       this.resetPasswordForm.get('user').setValidators([Validators.required]);
       this.resetPasswordForm.get('user').updateValueAndValidity()
-    }else if(this.resulvalid && !this.resulvalidcode){
+    } else if (this.resulvalid && !this.resulvalidcode) {
       this.resetPasswordForm.get('code').setValidators([Validators.required]);
       this.resetPasswordForm.get('code').updateValueAndValidity()
-    }else{
+    } else {
       this.resetPasswordForm.get('code').setValidators(null);
       this.resetPasswordForm.get('password').setValidators([Validators.required]);
       this.resetPasswordForm.get('repeatPassword').setValidators([Validators.required]);

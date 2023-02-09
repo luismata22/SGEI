@@ -49,17 +49,17 @@ namespace SGEI.Controllers
 
     [AllowAnonymous]
     [HttpPost("ResetPassword")]
-    public ActionResult<bool> ResetPassword(ResetPassword model)
+    public ActionResult<long> ResetPassword(ResetPassword model)
     {
-      bool result = _loginRepository.ResetPassword(model);
+      long result = _loginRepository.ResetPassword(model);
       return new JsonResult(result);
     }
 
     [AllowAnonymous]
     [HttpPost("ValidateCode")]
-    public ActionResult<bool> ValidateCode(ResetPassword model)
+    public ActionResult<long> ValidateCode(ResetPassword model)
     {
-      bool result = _loginRepository.ValidateCode(model);
+      long result = _loginRepository.ValidateCode(model);
       return new JsonResult(result);
     }
 
