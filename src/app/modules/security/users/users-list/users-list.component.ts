@@ -27,6 +27,7 @@ export class UsersListComponent implements OnInit {
   dropdownSettings = {};
   regexEmail = new RegExp("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
   validateEmail: boolean = true;
+  maxLengthPassword = 8;
 
   constructor(private userService: UserService,
     private notificationService: NotificationService,
@@ -97,7 +98,7 @@ export class UsersListComponent implements OnInit {
   saveUser(event) {
     this.save = true;
     if (this.user.nombres != "" && this.user.apellidos != "" && this.user.cedula != "" && this.user.correo != "" && this.user.clave != "" && this.repetirClave != ""
-    && this.user.clave == this.repetirClave) {
+    && this.user.clave.length >= this.maxLengthPassword && this.user.clave == this.repetirClave) {
       if(this.regexEmail.test(this.user.correo)){
         this.validateEmail = true;
         if (this.selectedRoles.length > 0) {
