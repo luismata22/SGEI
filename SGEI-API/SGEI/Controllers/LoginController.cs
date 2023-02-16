@@ -18,11 +18,10 @@ using Microsoft.Extensions.Logging;
 
 namespace SGEI.Controllers
 {
-  [Route("[controller]")]
   [ApiController]
+  [Route("[controller]")]
   public class LoginController : ControllerBase
   {
-    public IConfiguration AppSettings { get; }
     private readonly ILoginRepository _loginRepository;
 
     public LoginController(ILoginRepository loginRepository)

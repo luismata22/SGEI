@@ -23,6 +23,8 @@
     "@grapecity/activereports-angular": "^2.1.0",
     "@ng-bootstrap/ng-bootstrap": "^9.1.1",
     "@types/html2canvas": "^0.0.36",
+    "angular-datatables": "^15.0.0",
+    "angular2-multiselect-dropdown": "^5.0.4",
     "bootstrap": "^4.6.0",
     "crypto-js": "^4.1.1",
     "html2canvas": "*",

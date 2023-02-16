@@ -23,6 +23,8 @@ import { ActiveReportsModule } from '@grapecity/activereports-angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { ToastrModule } from 'ngx-toastr';
     NgbTooltipModule,
     NgbButtonsModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    AngularMultiSelectModule
   ],
   providers: [NavigationItem],
   bootstrap: [AppComponent]

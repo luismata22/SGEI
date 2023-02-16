@@ -27,11 +27,11 @@ const routes: Routes = [
         path: '',
         loadChildren: () => import('./modules/security/security.module').then(module => module.SecurityModule)
       },
-      /*{
-        path: '',
-        //loadChildren: () => import('./demo/ui-elements/ui-basic/ui-basic.module').then(module => module.UiBasicModule)
-      },
       {
+        path: '',
+        loadChildren: () => import('./modules/master/master.module').then(module => module.MasterModule)
+      },
+      /*{
         path: '',
         //loadChildren: () => import('./demo/pages/form-elements/form-elements.module').then(module => module.FormElementsModule)
       },

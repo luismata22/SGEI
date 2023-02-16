@@ -5,14 +5,15 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="name">Nombre</label>
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control" id="name" [(ngModel)]="filter.nombre"
+                            (keyup.enter)="getRoles()">
                         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="status">Estatus</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
+                        <select class="form-control" [(ngModel)]="filter.activo">
                             <option value="-1">Todos</option>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
@@ -21,8 +22,9 @@
                     </div>
                 </div>
                 <div class="col-md-12" style="text-align: right;">
-                    <button type="button" class="btn btn-primary" style="margin-top: 5px;">Buscar</button>
-                    <button type="button" class="btn btn-success" (click)="modalDefault.show()"
+                    <button type="button" class="btn btn-primary" style="margin-top: 5px;"
+                        (click)="getRoles()">Buscar</button>
+                    <button type="button" class="btn btn-success" (click)="showModal(modalDefault)"
                         style="margin-top: 5px; margin-left: 10px;">Nuevo</button>
                 </div>
             </div>
@@ -30,45 +32,43 @@
     </div>
     <div class="col-sm-12">
         <app-card cardTitle="Roles">
-            <!--<div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Correo electrónico</th>
-              <th>Cédula</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>1212121</td>
-            </tr>
-            <tr>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td>12334434</td>
-            </tr>
-            <tr>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>1212122</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>-->
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Permisos</th>
+                            <th>Estatus</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let role of roleList">
+                            <td>{{role.nombre}}</td>
+                            <td>{{role.descripcion}}</td>
+                            <td>
+                                <span class="badge m-r-5 badge-pill badge-primary"
+                                    *ngFor="let permisoxrole of role.permisosxrole">
+                                    {{permisoxrole.permiso.nombre}}
+                                </span>
+                            </td>
+                            <td>{{role.activo ? 'Activo' : 'Inactivo'}}</td>
+                            <td><button type="button" class="btn btn-icon btn-primary"
+                                    (click)="editModal(modalDefault, role)"
+                                    style="margin-top: 5px; margin-left: 10px;"><i
+                                        class="feather icon-edit"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </app-card>
     </div>
 </div>
 
 <app-ui-modal #modalDefault>
     <div class="app-modal-header">
-        <h5 class="modal-title">Nuevo rol</h5>
+        <h5 class="modal-title">{{tittleModal}}</h5>
         <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
             (click)="modalDefault.hide()"><span aria-hidden="true">&times;</span></button>
     </div>
@@ -76,16 +76,24 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input type="text" class="form-control" id="name">
-                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    <label for="name">Nombre <span style="color: red">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="role.nombre" id="name">
+                    <small style="color: red" *ngIf="save && role.nombre == ''">* El nombre es requerido</small>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="name">Descripción</label>
-                    <input type="text" class="form-control" id="description">
-                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    <input type="text" class="form-control" [(ngModel)]="role.descripcion" id="description">
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="role.id > 0">
+                <div class="form-group">
+                    <label for="status">Estatus</label>
+                    <select class="form-control" [(ngModel)]="role.activo">
+                        <option [value]="true">Activo</option>
+                        <option [value]="false">Inactivo</option>
+                    </select>
                 </div>
             </div>
             <div class="col-md-12">
@@ -94,13 +102,16 @@
             </div>
             <div class="col-md-3" *ngFor="let permission of permissionsList">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                    <input class="form-check-input" type="checkbox" id="gridCheck1" [(ngModel)]="permission.checked">
                     <label class="form-check-label" for="gridCheck1">{{permission.nombre}}</label>
                 </div>
+            </div>
+            <div class="col-md-12">
+                <small style="color: red">(*) Campos obligatorios</small>
             </div>
         </div>
     </div>
     <div class="app-modal-footer">
-        <button type="button" class="btn btn-primary" (click)="saveRole()">Guardar</button>
+        <button type="button" class="btn btn-primary" (click)="saveRole(modalDefault)">Guardar</button>
     </div>
 </app-ui-modal>

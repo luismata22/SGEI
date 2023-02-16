@@ -17,6 +17,11 @@ namespace SGEI.Context
     public DbSet<CodesResetPasswordxUsers> codigoresetearpasswordxusuario => Set<CodesResetPasswordxUsers>();
     //Permisos
     public DbSet<Permission> permisos => Set<Permission>();
-
+    //Roles
+    public DbSet<Role> roles => Set<Role>();
+    //PermisosxRoles
+    public DbSet<PermissionxRole> permisosxroles => Set<PermissionxRole>();
+    //RolesxUsuario
+    public DbSet<RolesxUsuario> rolesxusuario => Set<RolesxUsuario>();
   }
 }

@@ -53,6 +53,21 @@ const NavigationItems = [
             url: '/roles',
           }
         ]
+      },
+      {
+        id: 'security',
+        title: 'Mestros',
+        type: 'collapse',
+        icon: 'feather icon-lock',
+        children: [
+          {
+            id: 'students',
+            title: 'Alumnos',
+            type: 'item',
+            icon: 'feather icon-user',
+            url: '/students',
+          },
+        ]
       }
     ]
   }

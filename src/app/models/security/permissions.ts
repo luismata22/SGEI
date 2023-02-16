@@ -1,4 +1,5 @@
 export class Permissions{
-    id: string = "";
+    id: number = -1;
     nombre: string = "";
+    checked: boolean = false;
 }

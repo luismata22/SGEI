@@ -32,8 +32,8 @@ namespace SGEI.Repository
     {
       var users = _context.usuarios.ToListAsync();
 
-      if (users.Result.ToList().FindAll(x => x.Correo == userName && x.Clave == password).Count > 0)
-        return users.Result.ToList().Find(x => x.Correo == userName && x.Clave == password);
+      if (users.Result.ToList().FindAll(x => x.correo == userName && x.clave == password).Count > 0)
+        return users.Result.ToList().Find(x => x.correo == userName && x.clave == password);
       else
         return null;
     }
@@ -44,7 +44,7 @@ namespace SGEI.Repository
       {
         var users = _context.usuarios.ToListAsync();
 
-        if(users.Result.FindAll(x => x.Correo == model.User).Count > 0)
+        if(users.Result.FindAll(x => x.correo == model.User).Count > 0)
         {
           const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
           var random = new Random();
@@ -57,17 +57,17 @@ namespace SGEI.Repository
           _mailService.SendEmailAsync(mailRequest);
 
 
-          var user = users.Result.ToList().Find(x => x.Correo == model.User);
+          var user = users.Result.ToList().Find(x => x.correo == model.User);
           var data = new CodesResetPasswordxUsers()
           {
-            IdUsuario = user.Id,
-            Codigo = code,
-            Activo = true
+            idusuario = user.id,
+            codigo = code,
+            activo = true
           };
-          if (_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.IdUsuario == user.Id && x.Activo == true).Count > 0)
+          if (_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.idusuario == user.id && x.activo == true).Count > 0)
           {
-            var codeActive = _context.codigoresetearpasswordxusuario.ToList().Find(x => x.IdUsuario == user.Id && x.Activo == true);
-            codeActive.Activo = false;
+            var codeActive = _context.codigoresetearpasswordxusuario.ToList().Find(x => x.idusuario == user.id && x.activo == true);
+            codeActive.activo = false;
             _context.codigoresetearpasswordxusuario.Add(codeActive);
             _context.Entry(codeActive).State = EntityState.Modified;
             _context.SaveChanges();
@@ -96,7 +96,7 @@ namespace SGEI.Repository
       try
       {
         var users = _context.usuarios.ToListAsync();
-        if(_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.IdUsuario == users.Result.ToList().Find(x => x.Correo == model.User).Id && x.Codigo == model.Code && x.Activo == true).Count > 0)
+        if(_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.idusuario == users.Result.ToList().Find(x => x.correo == model.User).id && x.codigo == model.Code && x.activo == true).Count > 0)
         {
           return 1; //success
         }
@@ -117,14 +117,14 @@ namespace SGEI.Repository
       try
       {
         var users = _context.usuarios.ToListAsync();
-        var user = users.Result.Find(x => x.Correo == model.User);
-        user.Clave = model.Password;
+        var user = users.Result.Find(x => x.correo == model.User);
+        user.clave = model.Password;
         _context.usuarios.Add(user);
         _context.Entry(user).State = EntityState.Modified;
         _context.SaveChanges();
 
-        var code = _context.codigoresetearpasswordxusuario.ToList().Find(x => x.IdUsuario == user.Id && x.Activo == true);
-        code.Activo = false;
+        var code = _context.codigoresetearpasswordxusuario.ToList().Find(x => x.idusuario == user.id && x.activo == true);
+        code.activo = false;
         _context.codigoresetearpasswordxusuario.Add(code);
         _context.Entry(code).State = EntityState.Modified;
         _context.SaveChanges();

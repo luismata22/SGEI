@@ -26,6 +26,9 @@ namespace SGEI.ApiConfiguration
 
       //Role
       services.AddTransient<IRoleRepository, RoleRepository>();
+
+      //User
+      services.AddTransient<IUserRepository, UserRepository>();
     }
 
     internal static void ConfigureLocalization(this IServiceCollection services)

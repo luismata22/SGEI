@@ -1,21 +1,29 @@
 using Microsoft.EntityFrameworkCore;
+using SGEI.Models.Security;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SGEI.Models
 {
-    public class User
-    {
-      public long Id { get; set; }
+  public class User
+  {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public long id { get; set; }
 
-      public string Nombres { get; set; }
+    public string nombres { get; set; }
 
-      public string Apellidos { get; set; }
+    public string apellidos { get; set; }
 
-      public string Correo { get; set; }
+    public string correo { get; set; }
 
-      public string Cedula { get; set; }
+    public string cedula { get; set; }
 
-      public  bool Activo { get; set; }
+    public bool activo { get; set; }
 
-      public string Clave { get; set; }
-    }
+    public string clave { get; set; }
+
+    public List<RolesxUsuario> rolesxusuario { get; set; }
+  }
 }

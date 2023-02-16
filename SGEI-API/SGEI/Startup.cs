@@ -32,7 +32,12 @@ namespace SGEI
     {
       services.ConfigureDependencies();
 
-      services.ConfigureSwagger();
+      services.AddSwaggerGen(c =>
+      {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "SGEI", Version = "v1" });
+        c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+      });
+      //services.ConfigureSwagger();
 
       var connectionString = Configuration.GetConnectionString("PostgreSqlConnection");
 
@@ -57,6 +62,8 @@ namespace SGEI
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
+        app.UseSwagger();
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SGEI v1"));
       }
 
       // CORS - Allow calling the API from WebBrowsers
@@ -73,7 +80,7 @@ namespace SGEI
 
       app.UseAuthorization();
 
-      app.UseSwaggerUI();
+      //app.UseSwaggerUI();
 
       app.UseEndpoints(endpoints =>
       {

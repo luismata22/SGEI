@@ -7,12 +7,12 @@ namespace SGEI.Models.Authenticate
   {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long Id { get; set; }
+    public long id { get; set; }
 
-    public long IdUsuario { get; set; }
+    public long idusuario { get; set; }
 
-    public string Codigo { get; set; }
+    public string codigo { get; set; }
 
-    public bool Activo { get; set; }
+    public bool activo { get; set; }
   }
 }
