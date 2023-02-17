@@ -19,9 +19,9 @@ namespace SGEI.Repository
       _context = context;
     }
 
-    public List<Permission> GetPermissions()
+    public List<PermissionxModule> GetPermissionsxModule()
     {
-      var permissions = _context.permisos.ToList();
+      var permissions = _context.perm.ToList();
       return permissions;
     }
 
@@ -65,9 +65,9 @@ namespace SGEI.Repository
               _context.permisosxroles.RemoveRange(_context.permisosxroles.Where(x => x.idrol == model.id));
               _context.SaveChanges();
             }
-            foreach (PermissionxRole permission in model.permisosxrole)
+            foreach (PermissionxModulexRole permission in model.permisosxrole)
             {
-              var permissionxrol = new PermissionxRole
+              var permissionxrol = new PermissionxModulexRole
               {
                 idrol = model.id,
                 idpermiso = permission.idpermiso,

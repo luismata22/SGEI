@@ -17,6 +17,6 @@ namespace SGEI.Models
 
     public bool activo { get; set; }
 
-    public List<PermissionxRole> permisosxrole { get; set; }
+    public List<PermissionxModulexRole> permisosxmoduloxrole { get; set; }
   }
 }

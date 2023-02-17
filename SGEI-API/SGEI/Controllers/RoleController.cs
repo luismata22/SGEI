@@ -21,10 +21,10 @@ namespace SGEI.Controllers
     }
 
     [AllowAnonymous]
-    [HttpGet("GetPermissions")]
-    public ActionResult<List<Permission>> GetPermissions()
+    [HttpGet("GetPermissionsxModule")]
+    public ActionResult<List<PermissionxModule>> GetPermissionsxModule()
     {
-      List<Permission> result = _roleRepository.GetPermissions();
+      List<PermissionxModule> result = _roleRepository.GetPermissionsxModule();
       return new JsonResult(result);
     }
 

@@ -24,7 +24,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
-import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -56,7 +55,7 @@ import { DataTablesModule } from 'angular-datatables';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     AngularMultiSelectModule,
-    DataTablesModule
+    //DataTablesModule
   ],
   providers: [NavigationItem],
   bootstrap: [AppComponent]

@@ -6,7 +6,6 @@ import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { ActiveReportsModule } from '@grapecity/activereports-angular';
 import { RoleListComponent } from './roles/role-list/role-list.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
-import { DataTablesModule } from 'angular-datatables';
 
 
 
@@ -20,7 +19,7 @@ import { DataTablesModule } from 'angular-datatables';
     SecurityRoutingModule,
     SharedModule,
     AngularMultiSelectModule,
-    DataTablesModule
+    //DataTablesModule
   ],
 })
 export class SecurityModule { }
