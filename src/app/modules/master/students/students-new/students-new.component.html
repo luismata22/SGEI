@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h5>Crear alumno</h5>
+    </div>
+    <div class="col-sm-12">
+        <app-card cardTitle="Datos del alumno">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="name">Nombres</label>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="student.nombres">
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="name">Apellidos</label>
+                        <input type="text" class="form-control" id="lastName" [(ngModel)]="student.apellidos">
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="email">Tipo de curso</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option [value]="typeCourse.id" *ngFor="let typeCourse of typeCourseList">{{typeCourse.nombre}}</option>
+                        </select>
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="card">Fecha de nacimiento</label>
+                        <input type="date" class="form-control" id="card">
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="status">Estatus</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option value="-1">Todos</option>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="card">Cédula</label>
+                        <input type="text" class="form-control" id="card">
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+                </div>
+                <div class="col-md-12" style="text-align: right;">
+                    <button type="button" class="btn btn-primary" style="margin-top: 5px;">Buscar</button>
+                    <button type="button" class="btn btn-success"
+                        style="margin-top: 5px; margin-left: 10px;">Nuevo</button>
+                </div>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-sm-12">
+        <app-card cardTitle="Datos de los representantes">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary" style="margin-top: 5px;">Agregar</button>
+                </div>
+                <div class="col-md-12">
+
+                </div>
+            </div>
+        </app-card>
+    </div>
+</div>

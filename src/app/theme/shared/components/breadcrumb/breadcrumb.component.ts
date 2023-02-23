@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/modules/authentication/shared/auth.service';
+import { NotificationService } from 'src/app/modules/utils/notification.service';
 import { NavigationItem } from 'src/app/theme/layout/admin/navigation/navigation';
 
 @Component({
@@ -12,22 +14,20 @@ export class BreadcrumbComponent implements OnInit {
 
   @Input() type: string;
 
-  public navigation: any;
+  public navigation: any[] = [];
   breadcrumbList: Array<any> = [];
   public navigationList: Array<any> = [];
 
-  constructor(private route: Router, public nav: NavigationItem, private titleService: Title) {
-    this.navigation = this.nav.get();
+  constructor(private route: Router, public nav: NavigationItem, private titleService: Title,
+    public authService: AuthService, private notificationService: NotificationService) {
+    //this.navigation = this.nav.get();
+    this.getModules();
     this.type = 'theme2';
     this.setBreadcrumb();
   }
 
   ngOnInit() {
-    let routerUrl: string;
-    routerUrl = this.route.url;
-    if (routerUrl && typeof routerUrl === 'string') {
-      this.filterNavigation(routerUrl);
-    }
+
   }
 
   setBreadcrumb() {
@@ -40,6 +40,53 @@ export class BreadcrumbComponent implements OnInit {
         this.filterNavigation(activeLink);
       }
     });
+  }
+
+  getModules() {
+    this.authService.getModules()
+      .then(data => {
+        var NavigationItems = [
+          {
+            id: 'menu',
+            title: 'Menú',
+            type: 'group',
+            icon: 'feather icon-monitor',
+            children: []
+          }
+        ];
+        if (data.length > 0) {
+          var modulescollapse = data.filter(x => x.modulo.idpadre == 0);
+          modulescollapse.forEach(module => {
+            var addmodule = {
+              id: module.id,
+              title: module.modulo.nombre,
+              type: 'collapse',
+              icon: module.modulo.icon,
+              children: []
+            };
+            data.filter(x => x.modulo.idpadre == module.modulo.id).forEach(submodule => {
+              addmodule.children.push({
+                id: submodule.id,
+                title: submodule.modulo.nombre,
+                type: 'item',
+                icon: submodule.modulo.icon,
+                url: submodule.modulo.url,
+              })
+            })
+            NavigationItems.find(x => x.id == "menu").children.push(addmodule);
+          })
+        }
+        this.navigation = NavigationItems;
+        let routerUrl: string;
+        routerUrl = this.route.url;
+        if (routerUrl && typeof routerUrl === 'string') {
+          this.filterNavigation(routerUrl);
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        this.notificationService.showError("Ha ocurrido un error al obtener los modulos", "Error")
+      });
   }
 
   filterNavigation(activeLink) {

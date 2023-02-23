@@ -7,7 +7,7 @@ namespace SGEI.Interfaces
 {
   public interface IRoleRepository
   {
-    List<Permission> GetPermissions();
+    List<PermissionxModule> GetPermissionsxModule();
 
     long Post(Role model);
 

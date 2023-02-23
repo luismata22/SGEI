@@ -10,7 +10,7 @@ namespace SGEI.Models.Security
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long id { get; set; }
 
-    public int idpermisoxmodulo { get; set; }
+    public long idpermisoxmodulo { get; set; }
 
     public long idrol { get; set; }
 
@@ -21,6 +21,6 @@ namespace SGEI.Models.Security
     public Role rol { get; set; }
 
     [ForeignKey(nameof(idpermisoxmodulo))]
-    public Permission permisosxmodulo { get; set; }
+    public PermissionxModule permisosxmodulo { get; set; }
   }
 }

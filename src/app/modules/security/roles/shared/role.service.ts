@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Permissions } from 'src/app/models/security/permissions';
+import { PermissionxModule } from 'src/app/models/security/permissionxmodule';
 import { Role } from 'src/app/models/security/role';
 import { RoleFilter } from 'src/app/models/security/role-filters';
 import { HttpHelpersService } from 'src/app/modules/utils/http-helpers.service';
@@ -13,8 +14,8 @@ export class RoleService {
 
   constructor(private httpClient: HttpClient, private _httpHelpersService: HttpHelpersService) { }
 
-  getPermissions() {
-    return this.httpClient.get<Permissions[]>(`${environment.API_BASE_URL}/Role/GetPermissions`)
+  getPermissionsxModule() {
+    return this.httpClient.get<PermissionxModule[]>(`${environment.API_BASE_URL}/Role/GetPermissionsxModule`)
       .toPromise();
   }
 

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SGEI.Models;
 using SGEI.Models.Authenticate;
+using SGEI.Models.Master;
 using SGEI.Models.Security;
 
 namespace SGEI.Context
@@ -17,13 +18,17 @@ namespace SGEI.Context
     public DbSet<CodesResetPasswordxUsers> codigoresetearpasswordxusuario => Set<CodesResetPasswordxUsers>();
     //Permisos
     public DbSet<Permission> permisos => Set<Permission>();
+    //Modulos
+    public DbSet<Module> modulos => Set<Module>();
     //Permisos x modulo
-    public DbSet<Permission> permisosxmodulo => Set<Permission>();
+    public DbSet<PermissionxModule> permisosxmodulo => Set<PermissionxModule>();
     //Roles
     public DbSet<Role> roles => Set<Role>();
     //PermisosxRoles
     public DbSet<PermissionxModulexRole> permisosxmoduloxroles => Set<PermissionxModulexRole>();
     //RolesxUsuario
     public DbSet<RolesxUsuario> rolesxusuario => Set<RolesxUsuario>();
+    //Tipo de curso
+    public DbSet<TypeCourse> tipocurso => Set<TypeCourse>();
   }
 }

@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SGEI.Models.Security
 {
   public class PermissionxModule
   {
+    [Key]
     public long id { get; set; }
 
     public int idmodulo { get; set; }
