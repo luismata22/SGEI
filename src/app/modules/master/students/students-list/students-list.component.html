@@ -37,7 +37,7 @@
           </div>
           <div class="col-md-12" style="text-align: right;">
             <button type="button" class="btn btn-primary" style="margin-top: 5px;">Buscar</button>
-            <button type="button" class="btn btn-success" 
+            <button type="button" class="btn btn-success" (click)="newStudent()" 
               style="margin-top: 5px; margin-left: 10px;">Nuevo</button>
           </div>
         </div>
@@ -46,7 +46,7 @@
     <div class="col-sm-12">
       <app-card cardTitle="Alumnos">
         <div class="table-responsive">
-          <table class="table table-hover">
+          <table datatable class="table table-hover" [dtOptions]="dtOptions">
             <thead>
               <tr>
                 <th>Nombres</th>

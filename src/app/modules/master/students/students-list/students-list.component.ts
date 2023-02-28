@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { dtOptions } from 'src/app/modules/utils/dataTableOptions';
 
 @Component({
   selector: 'app-students-list',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentsListComponent implements OnInit {
 
-  constructor() { }
+  dtOptions = dtOptions;
+  
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  newStudent(){
+    this.router.navigate(["/students-new"])
+  }
 }

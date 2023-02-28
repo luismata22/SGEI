@@ -15,6 +15,8 @@ using SGEI.Interfaces;
 using SGEI.Models;
 using SGEI.Utils;
 using Microsoft.Extensions.Logging;
+using SGEI.Models.Security;
+using System.Collections.Generic;
 
 namespace SGEI.Controllers
 {
@@ -70,6 +72,23 @@ namespace SGEI.Controllers
       var encryptPassword = EncryptPasswords.EncryptWithHash(passwordDecrypt);
       model.Password = encryptPassword;
       bool result = _loginRepository.UpdatePassword(model);
+      return new JsonResult(result);
+    }
+
+
+    [AllowAnonymous]
+    [HttpGet("GetModules")]
+    public ActionResult<List<PermissionxModule>> GetModules()
+    {
+      List<PermissionxModule> result = _loginRepository.GetModules();
+      return new JsonResult(result);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("GetPermissionsxUser")]
+    public ActionResult<List<PermissionxModule>> GetPermissionsxUser(long idUser)
+    {
+      List<PermissionxModule> result = _loginRepository.GetPermissionsxUser(idUser);
       return new JsonResult(result);
     }
   }

@@ -1,3 +1,4 @@
+import { PermissionxModulexRole } from "./permissionxmodulexrole";
 import { PermissionxRole } from "./permissionxrole";
 
 export class Role{
@@ -5,5 +6,6 @@ export class Role{
     nombre: string = "";
     descripcion: string = "";
     activo: boolean = false;
-    permisosxrole: PermissionxRole[] = [];
+    key: string = "";
+    permisosxmoduloxrole: PermissionxModulexRole[] = [];
 }

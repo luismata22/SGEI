@@ -46,7 +46,8 @@
   <div class="col-sm-12">
     <app-card cardTitle="Usuarios">
       <div class="table-responsive">
-        <table class="row-border hover" datatable>
+        <table datatable class="row-border hover"
+          [dtOptions]="dtOptions">
           <thead>
             <tr>
               <th>Nombres</th>

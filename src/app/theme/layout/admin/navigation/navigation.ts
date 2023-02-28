@@ -313,7 +313,7 @@ const NavigationItems = [
 
 @Injectable()
 export class NavigationItem {
-  public get() {
-    return NavigationItems;
-  }
+  // public get() {
+  //   return NavigationItems;
+  // }
 }

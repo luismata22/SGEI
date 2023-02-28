@@ -14,6 +14,7 @@ using System;
 using SGEI.Models.Utils;
 using SGEI.Repository.mail;
 using SGEI.Interfaces.mail;
+using SGEI.Models.Security;
 
 namespace SGEI.Repository
 {
@@ -44,7 +45,7 @@ namespace SGEI.Repository
       {
         var users = _context.usuarios.ToListAsync();
 
-        if(users.Result.FindAll(x => x.correo == model.User).Count > 0)
+        if (users.Result.FindAll(x => x.correo == model.User).Count > 0)
         {
           const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
           var random = new Random();
@@ -81,14 +82,14 @@ namespace SGEI.Repository
         {
           return -1; //no exist user
         }
-        
-        
+
+
       }
       catch (Exception ex)
       {
         return -2; //error general
       }
-      
+
     }
 
     public long ValidateCode(ResetPassword model)
@@ -96,7 +97,7 @@ namespace SGEI.Repository
       try
       {
         var users = _context.usuarios.ToListAsync();
-        if(_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.idusuario == users.Result.ToList().Find(x => x.correo == model.User).id && x.codigo == model.Code && x.activo == true).Count > 0)
+        if (_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.idusuario == users.Result.ToList().Find(x => x.correo == model.User).id && x.codigo == model.Code && x.activo == true).Count > 0)
         {
           return 1; //success
         }
@@ -136,6 +137,60 @@ namespace SGEI.Repository
         return false;
       }
 
+    }
+
+    public List<PermissionxModule> GetModules()
+    {
+      try
+      {
+        var modulos = _context.modulos.Where(x => x.idpadre == 0).ToList();
+        var permisosxmodulo = _context.permisosxmodulo.Where(x => x.idpermiso == 2).Include(x => x.modulo).ToList();
+        foreach (var modulo in modulos)
+        {
+          var item = new PermissionxModule
+          {
+            modulo = modulo,
+          };
+          permisosxmodulo.Add(item);
+        }
+        return permisosxmodulo;
+      }
+      catch (Exception ex)
+      {
+        throw ex;
+      }
+    }
+
+    public List<PermissionxModule> GetPermissionsxUser(long idUser)
+    {
+      try
+      {
+        List<PermissionxModule> permissionsxmodule = new List<PermissionxModule>();
+        var rolesxusuario = _context.rolesxusuario.Where(rxu => rxu.idusuario == idUser).ToList();
+        if (rolesxusuario.Count > 0)
+        {
+          rolesxusuario.ForEach(roles =>
+          {
+            var permisosxmoduloxrol = _context.permisosxmoduloxroles.Where(x => x.idrol == roles.idrol).ToList();
+            if (permisosxmoduloxrol.Count > 0)
+            {
+              permisosxmoduloxrol.ForEach(permisosxmodulo =>
+              {
+                var permisoxmodulo = new PermissionxModule
+                {
+                  id = permisosxmodulo.idpermisoxmodulo,
+                };
+                permissionsxmodule.Add(permisoxmodulo);
+              });
+            }
+          });
+        }
+        return permissionsxmodule.Distinct().ToList();
+      }
+      catch (Exception ex)
+      {
+        throw ex;
+      }
     }
   }
 }

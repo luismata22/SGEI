@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Module } from 'src/app/models/security/module';
 import { Permissions } from 'src/app/models/security/permissions';
+import { PermissionxModule } from 'src/app/models/security/permissionxmodule';
 import { PermissionxRole } from 'src/app/models/security/permissionxrole';
 import { Role } from 'src/app/models/security/role';
 import { RoleFilter } from 'src/app/models/security/role-filters';
+import { dtOptions } from 'src/app/modules/utils/dataTableOptions';
 import { NotificationService } from 'src/app/modules/utils/notification.service';
 import { RoleService } from '../shared/role.service';
 
@@ -14,24 +17,27 @@ import { RoleService } from '../shared/role.service';
 export class RoleListComponent implements OnInit {
 
   tittleModal = "Nuevo rol";
-  permissionsList: Permissions[] = [];
+  permissionsxmoduleList: PermissionxModule[] = [];
+  modulesList: Module[] = [];
   roleList: Role[] = [];
   role: Role = new Role();
   save: boolean = false;
   filter: RoleFilter = new RoleFilter();
+  dtOptions = dtOptions;
 
   constructor(private roleService: RoleService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.getRoles();
-    this.getPermissions();
+    this.getPermissionsxModule();
   }
 
   getRoles() {
     this.roleService.getRoles(this.filter)
       .then(data => {
-        console.log(data)
+        this.roleList = [];
         this.roleList = [...data];
+        console.log(this.roleList)
       })
       .catch(error => {
         console.log(error)
@@ -39,29 +45,41 @@ export class RoleListComponent implements OnInit {
       });
   }
 
-  getPermissions() {
-    this.roleService.getPermissions()
+  gerPermissionxmodule(module: Module){
+    return this.permissionsxmoduleList.filter(x => x.idmodulo == module.id);
+  }
+
+  getPermissionsxModule() {
+    this.roleService.getPermissionsxModule()
       .then(data => {
-        this.permissionsList = [...data];
+        if(data.length > 0){
+          data.forEach(pxm => {
+            if(this.modulesList.filter(x => x.id == pxm.idmodulo).length == 0){
+              this.modulesList.push(pxm.modulo)
+            }
+          })
+        }
+        this.permissionsxmoduleList = [...data];
       })
       .catch(error => {
         console.log(error)
-        this.notificationService.showError("Ha ocurrido un error", "Error")
+        this.notificationService.showError("Ha ocurrido un error al obtener los permisos por modulo", "Error")
       });
   }
 
   saveRole(event) {
     this.save = true;
     if(this.role.nombre != ""){
-      if(this.permissionsList.filter(x => x.checked).length > 0){
-        this.role.permisosxrole = [];
-        this.permissionsList.filter(x => x.checked).forEach(permission => {
-          this.role.permisosxrole.push({
+      if(this.permissionsxmoduleList.filter(x => x.checked).length > 0){
+        this.role.permisosxmoduloxrole = [];
+        this.permissionsxmoduleList.filter(x => x.checked).forEach(permissionxmodule => {
+          this.role.permisosxmoduloxrole.push({
             id: -1,
-            idpermiso: permission.id,
+            idpermisoxmodulo: permissionxmodule.id,
             idrol: -1,
             activo: true,
-            permiso: new Permissions()
+            rol: new Role(),
+            permisosxmodulo: new PermissionxModule()
           });
         });
         if(this.role.id <= 0){
@@ -96,7 +114,7 @@ export class RoleListComponent implements OnInit {
     this.tittleModal = "Nuevo rol";
     event.show();
     this.role = new Role();
-    this.permissionsList.map(x => {
+    this.permissionsxmoduleList.map(x => {
       x.checked = false;
     })
   }
@@ -105,11 +123,12 @@ export class RoleListComponent implements OnInit {
     this.tittleModal = "Editar rol";
     event.show();
     this.role = {...role};
-    this.permissionsList.map(x => {
+    this.permissionsxmoduleList.map(x => {
       x.checked = false;
     })
-    role.permisosxrole.map(x => {
-      this.permissionsList.find(p => p.id == x.idpermiso).checked = true;
+    console.log(role);
+    role.permisosxmoduloxrole.map(x => {
+      this.permissionsxmoduleList.find(p => p.id == x.idpermisoxmodulo).checked = true;
     })
   }
 }

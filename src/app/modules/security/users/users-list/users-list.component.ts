@@ -5,6 +5,7 @@ import { RoleFilter } from 'src/app/models/security/role-filters';
 import { User } from 'src/app/models/security/user';
 import { UserFilter } from 'src/app/models/security/user-filter';
 import { EncryptService } from 'src/app/modules/authentication/shared/encrypt.service';
+import { dtOptions } from 'src/app/modules/utils/dataTableOptions';
 import { NotificationService } from 'src/app/modules/utils/notification.service';
 import { RoleService } from '../../roles/shared/role.service';
 import { UserService } from '../shared/user.service';
@@ -28,6 +29,7 @@ export class UsersListComponent implements OnInit {
   regexEmail = new RegExp("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
   validateEmail: boolean = true;
   maxLengthPassword = 8;
+  dtOptions = dtOptions;
 
   constructor(private userService: UserService,
     private notificationService: NotificationService,

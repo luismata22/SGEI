@@ -1,0 +1,195 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h5>Crear alumno</h5>
+    </div>
+    <div class="col-sm-12">
+        <app-card cardTitle="Datos del alumno">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="name">Nombres <span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="student.nombres">
+                        <small style="color: red" *ngIf="saveStu && student.nombres == ''">El nombre es requerido</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="name">Apellidos <span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="lastName" [(ngModel)]="student.apellidos">
+                        <small style="color: red" *ngIf="saveStu && student.apellidos == ''">El apellido es requerido</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="card">Cédula</label>
+                        <input type="text" class="form-control" id="card" disabled>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="email">Tipo de curso <span style="color: red">*</span></label>
+                        <select class="form-control" [(ngModel)]="student.idtipocurso" id="exampleFormControlSelect1">
+                            <option [ngValue]="typeCourse.id" *ngFor="let typeCourse of typeCourseList">
+                                {{typeCourse.nombre}}</option>
+                        </select>
+                        <small style="color: red" *ngIf="saveStu && student.idtipocurso <= 0">El tipo de curso es requerido</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="card">Fecha de nacimiento <span style="color: red">*</span></label>
+                        <input type="date" class="form-control" id="card" [(ngModel)]="student.fechanacimiento">
+                        <small style="color: red" *ngIf="saveStu && student.fechanacimiento == null">La fecha de nacimiento es requerida</small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <small style="color: red">(*) Campos obligatorios</small>
+                </div>
+                <!-- <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="status">Estatus</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option value="-1">Todos</option>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                </div> -->
+            </div>
+        </app-card>
+    </div>
+    <div class="col-sm-12">
+        <app-card cardTitle="Representantes">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary" style="margin-top: 5px;"
+                        (click)="addPerson(modalDefault)">Agregar</button>
+                </div>
+                <div class="col-md-12">
+                    <table datatable class="row-border hover"
+                        [dtOptions]="dtOptions">
+                        <thead>
+                            <tr>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Cédula</th>
+                                <th>Fecha de nacimiento</th>
+                                <th>Teléfono</th>
+                                <th>Correo</th>
+                                <th>Dirección</th>
+                                <th>Es representante</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let representante of student.representantes">
+                                <td>{{representante.nombres}}</td>
+                                <td>{{representante.apellidos}}</td>
+                                <td>{{representante.cedula}}</td>
+                                <td>{{representante.fechanacimiento}}</td>
+                                <td>{{representante.telefono}}</td>
+                                <td>{{representante.correo}}</td>
+                                <td>{{representante.direccion}}</td>
+                                <td>{{representante.esrepresentante ? 'Si' : 'No'}}</td>
+                                <td><button type="button" class="btn btn-icon btn-primary"
+                                        (click)="editModal(modalDefault, representante)"
+                                        style="margin-top: 5px; margin-left: 10px;"><i
+                                            class="feather icon-edit"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-sm-12">
+        <app-card cardTitle="Datos adjuntos">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary" style="margin-top: 5px;"
+                        (click)="addPerson(modalDefault)">Agregar</button>
+                </div>
+            </div>
+        </app-card>
+    </div>
+    <div class="col-sm-12" style="text-align: right;">
+        <button type="button" class="btn btn-secondary" (click)="back()">Regresar</button>
+        <button type="button" class="btn btn-light" style="margin-left: 10px;" (click)="clear()">Limpiar</button>
+        <button type="button" class="btn btn-success" style="margin-left: 10px;" (click)="saveStudent()">Guardar</button>
+    </div>
+</div>
+<app-ui-modal #modalDefault [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h5 class="modal-title">{{tittleModal}}</h5>
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+            (click)="modalDefault.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="app-modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Nombres <span style="color: red">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="person.nombres" id="name">
+                    <small style="color: red" *ngIf="savePer && person.nombres == ''">* El nombre es requerido</small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Apellidos <span style="color: red">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="person.apellidos" id="name">
+                    <small style="color: red" *ngIf="savePer && person.apellidos == ''">* El apellido es requerido</small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Cédula <span style="color: red">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="person.cedula" id="name">
+                    <small style="color: red" *ngIf="savePer && person.cedula == ''">* La cédula es requerido</small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Fecha de nacimiento <span style="color: red">*</span></label>
+                    <input type="date" class="form-control" [(ngModel)]="person.fechanacimiento" id="name">
+                    <small style="color: red" *ngIf="savePer && person.fechanacimiento == null">* La fecha de nacimiento es
+                        requerido</small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Teléfono <span style="color: red">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="person.telefono" id="name">
+                    <small style="color: red" *ngIf="savePer && person.telefono == ''">* La teléfono es requerido</small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Correo <span style="color: red">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="person.correo" id="name">
+                    <small style="color: red" *ngIf="savePer && person.correo == ''">* La correo es requerido</small>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label for="name">Dirección <span style="color: red">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="person.direccion" id="name">
+                    <small style="color: red" *ngIf="savePer && person.direccion == ''">* La dirección es requerida</small>
+                </div>
+            </div>
+            <div class="col-md-3" style="display: flex; align-items: center;">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck1"
+                        [(ngModel)]="person.esrepresentante">
+                    <label class="form-check-label" for="gridCheck1">Es representante</label>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <small style="color: red">(*) Campos obligatorios</small>
+            </div>
+        </div>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-primary" (click)="savePerson(modalDefault)">Guardar</button>
+    </div>
+</app-ui-modal>

@@ -3,6 +3,9 @@ import { NextConfig } from 'src/app/app-config';
 import { NavigationItem } from '../navigation';
 import { Location } from '@angular/common';
 import { AuthService } from 'src/app/modules/authentication/shared/auth.service';
+import { NotificationService } from 'src/app/modules/utils/notification.service';
+import * as Permissions from 'src/app/modules/utils/permissions';
+import { UserPermissionsService } from 'src/app/modules/authentication/shared/user-permissions.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -20,6 +23,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   public scrollWidth: any;
   public windowWidth: number;
   public isNavProfile: boolean;
+  permissionsIDs = { ...Permissions };
 
   @Output() onNavMobCollapse = new EventEmitter();
 
@@ -27,11 +31,13 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   @ViewChild('navbarWrapper') navbarWrapper: ElementRef;
 
   constructor(public nav: NavigationItem, private zone: NgZone, private location: Location,
-    public authService: AuthService) { 
+    public authService: AuthService, private notificationService: NotificationService,
+    public userPermissions: UserPermissionsService) {
     this.flatConfig = NextConfig.config;
     this.windowWidth = window.innerWidth;
 
-    this.navigation = this.nav.get();
+    //this.navigation = this.nav.get();
+    this.getModules();
     this.prevDisabled = 'disabled';
     this.nextDisabled = '';
     this.scrollWidth = 0;
@@ -50,6 +56,53 @@ export class NavContentComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getModules() {
+    this.authService.getModules()
+      .then(data => {
+        var NavigationItems = [
+          {
+            id: 'menu',
+            title: 'Menú',
+            type: 'group',
+            icon: 'feather icon-monitor',
+            children: []
+          }
+        ];
+        if (data.length > 0) {
+          var modulescollapse = data.filter(x => x.modulo.idpadre == 0);
+
+          modulescollapse.forEach(module => {
+            var addmodule = {
+              id: module.id,
+              title: module.modulo.nombre,
+              type: 'collapse',
+              icon: module.modulo.icon,
+              children: []
+            };
+            data.filter(x => x.modulo.idpadre == module.modulo.id).forEach(submodule => {
+              if (this.userPermissions.allowed(submodule.id)) {
+                addmodule.children.push({
+                  id: submodule.id,
+                  title: submodule.modulo.nombre,
+                  type: 'item',
+                  icon: submodule.modulo.icon,
+                  url: submodule.modulo.url,
+                })
+              }
+            })
+            if(addmodule.children.length > 0){
+              NavigationItems.find(x => x.id == "menu").children.push(addmodule);
+            }
+          })
+        }
+        this.navigation = NavigationItems;
+      })
+      .catch(error => {
+        console.log(error)
+        this.notificationService.showError("Ha ocurrido un error al obtener los modulos", "Error")
+      });
+  }
+
   ngAfterViewInit() {
     if (this.flatConfig['layout'] === 'horizontal') {
       this.contentWidth = this.navbarContent.nativeElement.clientWidth;
@@ -64,7 +117,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       this.nextDisabled = 'disabled';
     }
     this.prevDisabled = '';
-    if(this.flatConfig.rtlLayout) {
+    if (this.flatConfig.rtlLayout) {
       (document.querySelector('#side-nav-horizontal') as HTMLElement).style.marginRight = '-' + this.scrollWidth + 'px';
     } else {
       (document.querySelector('#side-nav-horizontal') as HTMLElement).style.marginLeft = '-' + this.scrollWidth + 'px';
@@ -78,7 +131,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       this.prevDisabled = 'disabled';
     }
     this.nextDisabled = '';
-    if(this.flatConfig.rtlLayout) {
+    if (this.flatConfig.rtlLayout) {
       (document.querySelector('#side-nav-horizontal') as HTMLElement).style.marginRight = '-' + this.scrollWidth + 'px';
     } else {
       (document.querySelector('#side-nav-horizontal') as HTMLElement).style.marginLeft = '-' + this.scrollWidth + 'px';
@@ -105,7 +158,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       const last_parent = up_parent.parentElement;
       if (parent.classList.contains('pcoded-hasmenu')) {
         parent.classList.add('active');
-      } else if(up_parent.classList.contains('pcoded-hasmenu')) {
+      } else if (up_parent.classList.contains('pcoded-hasmenu')) {
         up_parent.classList.add('active');
       } else if (last_parent.classList.contains('pcoded-hasmenu')) {
         last_parent.classList.add('active');
@@ -135,7 +188,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
           parent.classList.add('pcoded-trigger');
         }
         parent.classList.add('active');
-      } else if(up_parent.classList.contains('pcoded-hasmenu')) {
+      } else if (up_parent.classList.contains('pcoded-hasmenu')) {
         if (this.flatConfig['layout'] === 'vertical') {
           up_parent.classList.add('pcoded-trigger');
         }

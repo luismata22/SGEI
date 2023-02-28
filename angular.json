@@ -33,10 +33,13 @@
             "styles": [
               "src/styles.scss",
               "./node_modules/ngx-toastr/toastr.css",
-              "./node_modules/angular2-multiselect-dropdown/themes/default.theme.css"
+              "./node_modules/angular2-multiselect-dropdown/themes/default.theme.css",
+              "./node_modules/datatables.net-dt/css/jquery.dataTables.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js"
             ]
           },
           "configurations": {

@@ -1,5 +1,7 @@
 using SGEI.Models;
 using SGEI.Models.Authenticate;
+using SGEI.Models.Security;
+using System.Collections.Generic;
 
 namespace SGEI.Interfaces
 {
@@ -12,5 +14,9 @@ namespace SGEI.Interfaces
     long ValidateCode(ResetPassword model);
 
     bool UpdatePassword(ResetPassword model);
+
+    List<PermissionxModule> GetModules();
+
+    List<PermissionxModule> GetPermissionsxUser(long idUser);
   }
 }

@@ -5,6 +5,9 @@ import { Authenticate } from 'src/app/models/authentication/authenticate';
 import { environment } from 'src/environments/environment';
 import { Observable, observable, throwError } from 'rxjs';
 import { ResetPassword } from 'src/app/models/authentication/reset-password';
+import { Module } from 'src/app/models/security/module';
+import { Permissions } from 'src/app/models/security/permissions';
+import { PermissionxModule } from 'src/app/models/security/permissionxmodule';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +18,8 @@ export class AuthService {
 
   private readonly USER_STATE = '_USER_STATE';
   private readonly REMEMBER_ME = '_REMEMBER_ME';
+  private readonly ACCESS_STATE = '_ACCESS_STATE';
+  permissionsList: number[] = [];
   private loggedUser: string;
 
   login(password:string, user: string, rememberMe: boolean): Promise<void> {
@@ -28,6 +33,7 @@ export class AuthService {
       .toPromise()
       .then(token => {
           this.doLogin(credentials.user, {...token});
+          this.getPermissionsxUser(token.id);
       });
   }
 
@@ -119,5 +125,54 @@ export class AuthService {
   updatePassword(data: ResetPassword) {
     return this.httpClient.post<boolean>(`${environment.API_BASE_URL}/Login/updatePassword`, data)
       .toPromise()
+  }
+
+  getModules(){
+    return this.httpClient.get<PermissionxModule[]>(`${environment.API_BASE_URL}/Login/GetModules`)
+      .toPromise();
+  }
+
+  getPermissionsxUser(idUser: number){
+    this.getPermissionsPromise(idUser).then(permissions => {
+      this.sendToStorage(permissions)
+    })
+  }
+
+  getPermissionsPromise(idUser: number) {
+    return this.httpClient.get<Permissions[]>(
+      `${environment.API_BASE_URL}/Login/GetPermissionsxUser?idUser=${idUser}`)
+      .toPromise()
+      .then(result => result )
+      .catch( error => {
+        return error;
+      });
+  }
+
+  sendToStorage(result: Permissions[]) {
+    localStorage.setItem(this.ACCESS_STATE, JSON.stringify(result));
+    
+  }
+
+  get permissions() {
+    var accesses: Permissions[] = JSON.parse(localStorage.getItem(this.ACCESS_STATE));
+    if (accesses == null) {
+      accesses = []
+    }
+    this.permissionsList = [];
+    Object.values(accesses).map(item => {
+            this.permissionsList.push(item.id);
+  });
+  return this.permissionsList;
+  }
+
+  async getPermissions() {
+      var accesses: Permissions[] = JSON.parse(localStorage.getItem(this.ACCESS_STATE));
+      if (accesses == null) {
+        accesses = []
+      }
+      Object.values(accesses).map(item => {
+        this.permissionsList.push(item.id);
+      });
+      await this.permissionsList;
   }
 }
