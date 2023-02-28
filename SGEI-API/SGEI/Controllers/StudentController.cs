@@ -25,5 +25,13 @@ namespace SGEI.Controllers
       List<TypeCourse> result = _studentRepository.GetTypeCourse();
       return new JsonResult(result);
     }
+
+    [AllowAnonymous]
+    [HttpPost]
+    public ActionResult<long> Post(Student model)
+    {
+      long result = _studentRepository.Post(model);
+      return new JsonResult(result);
+    }
   }
 }

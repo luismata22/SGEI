@@ -30,5 +30,11 @@ namespace SGEI.Context
     public DbSet<RolesxUsuario> rolesxusuario => Set<RolesxUsuario>();
     //Tipo de curso
     public DbSet<TypeCourse> tipocurso => Set<TypeCourse>();
+    //Estudiantes
+    public DbSet<Student> estudiantes => Set<Student>();
+    //Personas
+    public DbSet<Person> personas => Set<Person>();
+    //Personas x estudiante
+    public DbSet<PersonsxStudent> personasxestudiante => Set<PersonsxStudent>();
   }
 }

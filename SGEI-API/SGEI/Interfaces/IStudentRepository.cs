@@ -6,5 +6,7 @@ namespace SGEI.Interfaces
   public interface IStudentRepository
   {
     List<TypeCourse> GetTypeCourse();
+
+    long Post(Student model);
   }
 }
