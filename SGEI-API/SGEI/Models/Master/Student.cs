@@ -8,6 +8,7 @@ namespace SGEI.Models.Master
 {
   public class Student
   {
+    [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long id { get; set; }
 
@@ -21,6 +22,6 @@ namespace SGEI.Models.Master
 
     public DateTime fecharegistro { get; set; }
 
-    public List<Person> representantes { get; set; }
+    public List<PersonsxStudent> personasxestudiante { get; set; }
   }
 }

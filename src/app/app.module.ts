@@ -15,7 +15,7 @@ import { NavRightComponent } from './theme/layout/admin/nav-bar/nav-right/nav-ri
 import { NavSearchComponent } from './theme/layout/admin/nav-bar/nav-left/nav-search/nav-search.component';
 import { ConfigurationComponent } from './theme/layout/admin/configuration/configuration.component';
 import { SharedModule } from './theme/shared/shared.module';
-import { NgbButtonsModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbButtonsModule, NgbDropdownModule, NgbTooltipModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationItem } from './theme/layout/admin/navigation/navigation';
 import { AuthComponent } from './theme/layout/auth/auth.component';
 import { ToggleFullScreenDirective } from './theme/shared/full-screen/toggle-full-screen';
@@ -25,6 +25,8 @@ import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common
 import { ToastrModule } from 'ngx-toastr';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { DataTablesModule } from 'angular-datatables';
+import { AngularFileUploaderModule } from "angular-file-uploader";
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -56,7 +58,10 @@ import { DataTablesModule } from 'angular-datatables';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     AngularMultiSelectModule,
-    DataTablesModule
+    DataTablesModule,
+    AngularFileUploaderModule,
+    FileUploadModule,
+    NgbModule
   ],
   providers: [NavigationItem],
   bootstrap: [AppComponent]

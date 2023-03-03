@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/guard/auth.guard';
+import { StudentProfileComponent } from './students/student-profile/student-profile.component';
 import { StudentsListComponent } from './students/students-list/students-list.component';
 import { StudentsNewComponent } from './students/students-new/students-new.component';
 
@@ -14,6 +15,11 @@ const routes: Routes = [
     path: 'students-new',
     canActivate: [AuthGuard],
     component: StudentsNewComponent
+  },
+  {
+    path: 'student-profile',
+    canActivate: [AuthGuard],
+    component: StudentProfileComponent
   },
 ];
 

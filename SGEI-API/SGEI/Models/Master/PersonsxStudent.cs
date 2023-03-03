@@ -15,9 +15,11 @@ namespace SGEI.Models.Master
     public bool activo { get; set; }
 
     [ForeignKey(nameof(idpersona))]
-    public Person modulo { get; set; }
+    public Person persona { get; set; }
 
     [ForeignKey(nameof(idestudiante))]
-    public Student permiso { get; set; }
+    public Student estudiante { get; set; }
+
+    public bool esrepresentante { get; set; }
   }
 }
