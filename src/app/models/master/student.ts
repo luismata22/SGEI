@@ -1,4 +1,5 @@
 import { Person } from "./person";
+import { PersonxStudent } from "./personsxstudent";
 
 export class Student{
     id: number = -1;
@@ -6,5 +7,5 @@ export class Student{
     apellidos: string = "";
     idtipocurso: number = -1;
     fechanacimiento: Date;
-    representantes: Person[] = [];
+    personasxestudiante: PersonxStudent[] = [];
 }

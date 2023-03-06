@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Person } from 'src/app/models/master/person';
 import { Student } from 'src/app/models/master/student';
 import { TypeCourse } from 'src/app/models/master/typecourse';
 import { HttpHelpersService } from 'src/app/modules/utils/http-helpers.service';
@@ -19,6 +20,11 @@ export class StudentsService {
 
   postStudent(data: Student) {
     return this.httpClient.post<number>(`${environment.API_BASE_URL}/Student`, data)
+      .toPromise();
+  }
+
+  getPersons() {
+    return this.httpClient.get<Person[]>(`${environment.API_BASE_URL}/Person/GetPersons`)
       .toPromise();
   }
 }

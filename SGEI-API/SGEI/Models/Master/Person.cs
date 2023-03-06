@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace SGEI.Models.Master
 {
@@ -25,11 +24,6 @@ namespace SGEI.Models.Master
 
     public string direccion { get; set; }
 
-    public bool esrepresentante { get; set; }
-
     public string profesion { get; set; }
-
-    [JsonIgnore]
-    public Student estudiante { get; set; }
   }
 }

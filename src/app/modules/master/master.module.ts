@@ -5,19 +5,27 @@ import { MasterRoutingModule } from './master-routing-module';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { DataTablesModule } from 'angular-datatables';
 import { StudentsNewComponent } from './students/students-new/students-new.component';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { FileUploadModule } from 'ng2-file-upload';
+import { StudentProfileComponent } from './students/student-profile/student-profile.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
 @NgModule({
   declarations: [
     StudentsListComponent,
-    StudentsNewComponent
+    StudentsNewComponent,
+    StudentProfileComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     MasterRoutingModule,
-    DataTablesModule
+    DataTablesModule,
+    AngularFileUploaderModule,
+    FileUploadModule,
+    NgbModule
   ]
 })
 export class MasterModule { }

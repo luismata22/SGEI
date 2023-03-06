@@ -32,6 +32,9 @@ namespace SGEI.ApiConfiguration
 
       //Student
       services.AddTransient<IStudentRepository, StudentRepository>();
+
+      //Person
+      services.AddTransient<IPersonRepository, PersonRepository>();
     }
 
     internal static void ConfigureLocalization(this IServiceCollection services)

@@ -7,6 +7,7 @@ import { ActiveReportsModule } from '@grapecity/activereports-angular';
 import { RoleListComponent } from './roles/role-list/role-list.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { DataTablesModule } from 'angular-datatables';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -14,6 +15,7 @@ import { DataTablesModule } from 'angular-datatables';
   declarations: [
     UsersListComponent,
     RoleListComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,

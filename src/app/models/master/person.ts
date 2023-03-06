@@ -7,5 +7,4 @@ export class Person{
     telefono: string = "";
     correo: string = "";
     direccion: string = "";
-    esrepresentante: boolean = false;
 }
