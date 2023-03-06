@@ -46,32 +46,25 @@
     <div class="col-sm-12">
       <app-card cardTitle="Alumnos">
         <div class="table-responsive">
-          <table datatable class="table table-hover" [dtOptions]="dtOptions">
+          <table *ngIf="studentList.length > 0" datatable class="table table-hover" [dtOptions]="dtOptions">
             <thead>
               <tr>
                 <th>Nombres</th>
                 <th>Apellidos</th>
-                <th>Cédula</th>
-                <th>Correo electrónico</th>
-                <th>Rol</th>
+                <th>Tipo de curso</th>
                 <th>Estatus</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              <!-- <tr *ngFor="let user of userList">
-                <td>{{user.nombres}}</td>
-                <td>{{user.apellidos}}</td>
-                <td>{{user.cedula}}</td>
-                <td>{{user.correo}}</td>
-                <td>
-                  <span class="badge m-r-5 badge-pill badge-primary" *ngFor="let rolexusuario of user.rolesxusuario">
-                    {{rolexusuario.rol.nombre}}
-                  </span>
-                </td>
-                <td>{{user.activo ? 'Activo' : 'Inactivo'}}</td>
-                <td><button type="button" class="btn btn-icon btn-primary" (click)="editModal(modalDefault, user)"
+              <tr *ngFor="let student of studentList">
+                <td>{{student.nombres}}</td>
+                <td>{{student.apellidos}}</td>
+                <td>{{student.tipocurso.nombre}}</td>
+                <td>{{student.activo ? 'Activo' : 'Inactivo'}}</td>
+                <td><button type="button" class="btn btn-icon btn-primary" (click)="editStudent(student)"
                     style="margin-top: 5px; margin-left: 10px;"><i class="feather icon-edit"></i></button></td>
-              </tr> -->
+              </tr>
             </tbody>
           </table>
         </div>

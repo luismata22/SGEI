@@ -12,7 +12,7 @@ const routes: Routes = [
     component: StudentsListComponent
   },
   {
-    path: 'students-new',
+    path: 'students-new/:id',
     canActivate: [AuthGuard],
     component: StudentsNewComponent
   },

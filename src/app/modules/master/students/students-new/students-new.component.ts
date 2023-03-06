@@ -5,7 +5,7 @@ import { TypeCourse } from 'src/app/models/master/typecourse';
 import { NotificationService } from 'src/app/modules/utils/notification.service';
 import { StudentsService } from '../shared/students.service';
 import { dtOptions } from 'src/app/modules/utils/dataTableOptions';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { PersonxStudent } from 'src/app/models/master/personsxstudent';
 
@@ -19,6 +19,7 @@ export class StudentsNewComponent implements OnInit {
   student: Student = new Student();
   typeCourseList: TypeCourse[] = [];
   tittleModal: string = "Agregar representante";
+  tittleString: string = "Crear estudiante"
   person: Person = new Person();
   savePer: boolean = false;
   saveStu: boolean = false;
@@ -27,10 +28,18 @@ export class StudentsNewComponent implements OnInit {
 
   constructor(private studentsService: StudentsService,
     private notificationService: NotificationService,
-    private router: Router) { }
+    private router: Router,
+    private actRoute: ActivatedRoute,) { }
 
   ngOnInit(): void {
     this.getTypeCourses();
+    var idStudent = parseInt(this.actRoute.snapshot.params['id']);
+    if(idStudent > 0){
+      this.tittleString = "Editar estudiante";
+      this.getStudent(idStudent);
+    }else{
+      this.tittleString = "Crear estudiante";
+    }
   }
 
   public uploader: FileUploader = new FileUploader({
@@ -41,6 +50,10 @@ export class StudentsNewComponent implements OnInit {
     itemAlias: 'attachment',
     allowedFileType: ['image', 'pdf']
   });
+
+  getStudent(idStudent: number){
+
+  }
 
   getTypeCourses() {
     this.studentsService.getTypeCourses()

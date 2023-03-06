@@ -1,9 +1,12 @@
+using Microsoft.EntityFrameworkCore;
 using SGEI.Context;
 using SGEI.Interfaces;
 using SGEI.Interfaces.mail;
 using SGEI.Models;
 using SGEI.Models.Master;
+using SGEI.Models.Master.Filters;
 using SGEI.Models.Security;
+using SGEI.Models.Security.Filters;
 using SGEI.Models.Utils;
 using SGEI.Utils;
 using System;
@@ -28,7 +31,64 @@ namespace SGEI.Repository
       return typeCourses;
     }
 
-    public long Post(Student model)
+    public List<Student> GetStudents(StudentFilters filter)
+    {
+      //if (!String.IsNullOrEmpty(filter.Nombre) && filter.Activo > -1)
+      //{
+      //  var roles = _context.roles.Where(x => x.nombre.ToLower().Contains(filter.Nombre.ToLower()) && (filter.Activo == 1 ? true : false)).ToList();
+      //  foreach (var role in roles)
+      //  {
+      //    role.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
+      //      .Include(x => x.permisosxmodulo).ThenInclude(x => x.permiso)
+      //      .Include(x => x.permisosxmodulo).ThenInclude(x => x.modulo).ToList();
+      //  }
+      //  return roles;
+      //}
+      //else if (String.IsNullOrEmpty(filter.Nombre) && filter.Activo > -1)
+      //{
+      //  var roles = _context.roles.Where(x => x.activo == (filter.Activo == 1 ? true : false)).ToList();
+      //  foreach (var role in roles)
+      //  {
+      //    role.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
+      //      .Include(x => x.permisosxmodulo).ThenInclude(x => x.permiso)
+      //      .Include(x => x.permisosxmodulo).ThenInclude(x => x.modulo).ToList();
+      //  }
+      //  return roles;
+      //}
+      //else if (!String.IsNullOrEmpty(filter.Nombre) && filter.Activo == -1)
+      //{
+      //  var roles = _context.roles.Where(x => x.nombre.ToLower().Contains(filter.Nombre.ToLower())).ToList();
+      //  foreach (var role in roles)
+      //  {
+      //    role.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
+      //      .Include(x => x.permisosxmodulo).ThenInclude(x => x.permiso)
+      //      .Include(x => x.permisosxmodulo).ThenInclude(x => x.modulo).ToList();
+      //  }
+      //  return roles;
+      //}
+      //else
+      //{
+        var estudiantes = _context.estudiantes.Include(x => x.tipocurso).ToList();
+        //foreach (var estudiante in estudiantes)
+        //{
+        //estudiante.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
+        //    .Include(x => x.permisosxmodulo).ThenInclude(x => x.permiso)
+        //    .Include(x => x.permisosxmodulo).ThenInclude(x => x.modulo).ToList();
+
+        //  //role.permisosxmoduloxrole = role.permisosxmoduloxrole.GroupBy(x => x.permisosxmodulo.modulo).Select(d => d.First()).ToList();
+        //}
+        return estudiantes;
+      //}
+    }
+
+    public Student GetStudentById(long idStudent)
+    {
+      var student = _context.estudiantes.Where(x => x.Equals(idStudent)).FirstOrDefault();
+      student.personasxestudiante = _context.personasxestudiante.Where(x => x.idestudiante.Equals(student.id)).Include(p => p.persona).ToList();
+      return student;
+    }
+
+      public long Post(Student model)
     {
       try
       {
@@ -85,25 +145,29 @@ namespace SGEI.Repository
             {
               foreach (PersonsxStudent personsxStudent in model.personasxestudiante)
               {
-                var person = new Person
+                var person = new Person();
+                if (personsxStudent.persona.id <= 0)
                 {
-                  nombres = personsxStudent.persona.nombres,
-                  apellidos = personsxStudent.persona.apellidos,
-                  cedula = personsxStudent.persona.cedula,
-                  fechanacimiento = personsxStudent.persona.fechanacimiento,
-                  telefono = personsxStudent.persona.telefono,
-                  correo = personsxStudent.persona.correo,
-                  direccion = personsxStudent.persona.direccion,
-                  profesion = personsxStudent.persona.profesion
-                };
-                _context.ChangeTracker.Clear();
-                _context.personas.Add(person);
-                _context.SaveChanges();
+                  person = new Person
+                  {
+                    nombres = personsxStudent.persona.nombres,
+                    apellidos = personsxStudent.persona.apellidos,
+                    cedula = personsxStudent.persona.cedula,
+                    fechanacimiento = personsxStudent.persona.fechanacimiento,
+                    telefono = personsxStudent.persona.telefono,
+                    correo = personsxStudent.persona.correo,
+                    direccion = personsxStudent.persona.direccion,
+                    profesion = personsxStudent.persona.profesion
+                  };
+                  _context.ChangeTracker.Clear();
+                  _context.personas.Add(person);
+                  _context.SaveChanges();
+                }
 
                 var personxStudent = new PersonsxStudent
                 {
-                  idpersona = person.id,
-                  idestudiante = personsxStudent.persona.id,
+                  idpersona = personsxStudent.persona.id <= 0 ? person.id : personsxStudent.persona.id,
+                  idestudiante = student.id,
                   esrepresentante = personsxStudent.esrepresentante,
                   activo = true,
                 };
