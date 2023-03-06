@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Person } from 'src/app/models/master/person';
 import { Student } from 'src/app/models/master/student';
+import { StudentFilters } from 'src/app/models/master/student-filters';
 import { TypeCourse } from 'src/app/models/master/typecourse';
 import { HttpHelpersService } from 'src/app/modules/utils/http-helpers.service';
 import { environment } from 'src/environments/environment';
@@ -15,6 +16,18 @@ export class StudentsService {
 
   getTypeCourses() {
     return this.httpClient.get<TypeCourse[]>(`${environment.API_BASE_URL}/Student/GetTypeCourse`)
+      .toPromise();
+  }
+
+  getStudents(filter: StudentFilters) {
+    return this.httpClient.get<Student[]>(`${environment.API_BASE_URL}/Student`, {
+      params: this._httpHelpersService.getHttpParamsFromPlainObject(filter)
+    })
+      .toPromise();
+  }
+
+  getStudentById(idStudent: number) {
+    return this.httpClient.get<Student[]>(`${environment.API_BASE_URL}/Student/GetStudentById/${idStudent}`)
       .toPromise();
   }
 

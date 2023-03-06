@@ -22,6 +22,9 @@ namespace SGEI.Models.Master
 
     public DateTime fecharegistro { get; set; }
 
+    [ForeignKey(nameof(idtipocurso))]
+    public TypeCourse tipocurso { get; set; }
+
     public List<PersonsxStudent> personasxestudiante { get; set; }
   }
 }
