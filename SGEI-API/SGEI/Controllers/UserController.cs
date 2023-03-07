@@ -32,7 +32,7 @@ namespace SGEI.Controllers
     [HttpPost]
     public ActionResult<long> Post(User model)
     {
-      var passwordDecrypt = EncryptPasswords.DecryptWithAes(model.clave, model.correo);
+      var passwordDecrypt = EncryptPasswords.DecryptWithAes(model.clave, model.persona.correo);
       var encryptPassword = EncryptPasswords.EncryptWithHash(passwordDecrypt);
       model.clave = encryptPassword;
       long result = _userRepository.Post(model);

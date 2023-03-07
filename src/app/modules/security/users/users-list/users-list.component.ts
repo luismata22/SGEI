@@ -93,15 +93,16 @@ export class UsersListComponent implements OnInit {
   showModal(event) {
     this.tittleModal = "Nuevo usuario";
     this.user = new User();
+    this.selectedRoles = [];
     this.repetirClave = "";
     event.show();
   }
 
   saveUser(event) {
     this.save = true;
-    if (this.user.nombres != "" && this.user.apellidos != "" && this.user.cedula != "" && this.user.correo != "" && this.user.clave != "" && this.repetirClave != ""
+    if (this.user.persona.nombres != "" && this.user.persona.apellidos != "" && this.user.persona.cedula != "" && this.user.persona.correo != "" && this.user.clave != "" && this.repetirClave != ""
     && this.user.clave.length >= this.maxLengthPassword && this.user.clave == this.repetirClave) {
-      if(this.regexEmail.test(this.user.correo)){
+      if(this.regexEmail.test(this.user.persona.correo)){
         this.validateEmail = true;
         if (this.selectedRoles.length > 0) {
           this.user.rolesxusuario = [];
@@ -114,7 +115,7 @@ export class UsersListComponent implements OnInit {
               rol: new Role()
             });
           });
-          const passwordEncrypt: string = this.encryptService.encrypt(this.user.clave, this.user.correo);
+          const passwordEncrypt: string = this.encryptService.encrypt(this.user.clave, this.user.persona.correo);
           //this.user.clave = passwordEncrypt;
           if (this.user.id <= 0) {
             this.user.activo = true;

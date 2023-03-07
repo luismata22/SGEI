@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SGEI.Models.Master
 {
@@ -17,6 +18,7 @@ namespace SGEI.Models.Master
     [ForeignKey(nameof(idpersona))]
     public Person persona { get; set; }
 
+    [JsonIgnore]
     [ForeignKey(nameof(idestudiante))]
     public Student estudiante { get; set; }
 

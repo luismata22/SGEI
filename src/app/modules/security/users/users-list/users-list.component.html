@@ -46,7 +46,7 @@
   <div class="col-sm-12">
     <app-card cardTitle="Usuarios">
       <div class="table-responsive">
-        <table datatable class="row-border hover"
+        <table datatable class="row-border hover" *ngIf="userList.length > 0"
           [dtOptions]="dtOptions">
           <thead>
             <tr>
@@ -56,14 +56,15 @@
               <th>Correo electrónico</th>
               <th>Rol</th>
               <th>Estatus</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let user of userList">
-              <td>{{user.nombres}}</td>
-              <td>{{user.apellidos}}</td>
-              <td>{{user.cedula}}</td>
-              <td>{{user.correo}}</td>
+              <td>{{user.persona.nombres}}</td>
+              <td>{{user.persona.apellidos}}</td>
+              <td>{{user.persona.cedula}}</td>
+              <td>{{user.persona.correo}}</td>
               <td>
                 <span class="badge m-r-5 badge-pill badge-primary" *ngFor="let rolexusuario of user.rolesxusuario">
                   {{rolexusuario.rol.nombre}}
@@ -91,29 +92,29 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="name">Nombres <span style="color: red">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="user.nombres" id="name">
-          <small style="color: red" *ngIf="save && user.nombres == ''">* El nombre es requerido</small>
+          <input type="text" class="form-control" [(ngModel)]="user.persona.nombres" id="name">
+          <small style="color: red" *ngIf="save && user.persona.nombres == ''">* El nombre es requerido</small>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label for="name">Apellidos <span style="color: red">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="user.apellidos" id="lastname">
-          <small style="color: red" *ngIf="save && user.nombres == ''">* El apellido es requerido</small>
+          <input type="text" class="form-control" [(ngModel)]="user.persona.apellidos" id="lastname">
+          <small style="color: red" *ngIf="save && user.persona.apellidos == ''">* El apellido es requerido</small>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label for="name">Cédula <span style="color: red">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="user.cedula" id="documentNumber">
-          <small style="color: red" *ngIf="save && user.cedula == ''">* La cédula es requerida</small>
+          <input type="text" class="form-control" [(ngModel)]="user.persona.cedula" id="documentNumber">
+          <small style="color: red" *ngIf="save && user.persona.cedula == ''">* La cédula es requerida</small>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label for="name">Correo electrónico <span style="color: red">*</span></label>
-          <input type="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" class="form-control" [(ngModel)]="user.correo" id="email">
-          <small style="color: red" *ngIf="save && user.correo == ''">* El correo es requerido</small>
+          <input type="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" class="form-control" [(ngModel)]="user.persona.correo" id="email">
+          <small style="color: red" *ngIf="save && user.persona.correo == ''">* El correo es requerido</small>
           <small style="color: red" *ngIf="save && !validateEmail">* El correo es inválido</small>
         </div>
       </div>
@@ -122,7 +123,7 @@
           <label for="name">Roles <span style="color: red">*</span></label>
           <angular2-multiselect [settings]="dropdownSettings" [data]="roleList" [(ngModel)]="selectedRoles">
           </angular2-multiselect>
-          <small style="color: red" *ngIf="save && user.correo == ''">* El correo es requerido</small>
+          <small style="color: red" *ngIf="save && user.persona.correo == ''">* El correo es requerido</small>
         </div>
       </div>
       <div class="col-md-6">

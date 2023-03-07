@@ -7,4 +7,5 @@ export class Person{
     telefono: string = "";
     correo: string = "";
     direccion: string = "";
+    fechanacimientoString: string = "";
 }

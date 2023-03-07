@@ -41,8 +41,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="card">Fecha de nacimiento <span style="color: red">*</span></label>
-                        <input type="date" class="form-control" id="card" [(ngModel)]="student.fechanacimiento">
-                        <small style="color: red" *ngIf="saveStu && student.fechanacimiento == null">La fecha de
+                        <input type="date" class="form-control" id="card" [(ngModel)]="student.fechanacimientoString">
+                        <small style="color: red" *ngIf="saveStu && student.fechanacimientoString == ''">La fecha de
                             nacimiento es requerida</small>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
     </div>
     <div class="col-sm-12" style="text-align: right;">
         <button type="button" class="btn btn-secondary" (click)="back()">Regresar</button>
-        <button type="button" class="btn btn-light" style="margin-left: 10px;" (click)="clear()">Limpiar</button>
+        <button type="button" class="btn btn-light" style="margin-left: 10px;" (click)="clear()" *ngIf="student.id <= 0">Limpiar</button>
         <button type="button" class="btn btn-success" style="margin-left: 10px;"
             (click)="saveStudent()">Guardar</button>
     </div>
@@ -169,8 +169,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">Fecha de nacimiento <span style="color: red">*</span></label>
-                    <input type="date" class="form-control" [(ngModel)]="person.fechanacimiento" id="name">
-                    <small style="color: red" *ngIf="savePer && person.fechanacimiento == null">* La fecha de nacimiento
+                    <input type="date" class="form-control" [(ngModel)]="person.fechanacimientoString" id="name">
+                    <small style="color: red" *ngIf="savePer && person.fechanacimientoString == ''">* La fecha de nacimiento
                         es
                         requerido</small>
                 </div>

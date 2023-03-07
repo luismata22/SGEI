@@ -31,10 +31,10 @@ namespace SGEI.Repository
 
     public User UserAuthenticate(string userName, string password)
     {
-      var users = _context.usuarios.ToListAsync();
+      var users = _context.usuarios.Include(x => x.persona).ToListAsync();
 
-      if (users.Result.ToList().FindAll(x => x.correo == userName && x.clave == password).Count > 0)
-        return users.Result.ToList().Find(x => x.correo == userName && x.clave == password);
+      if (users.Result.ToList().FindAll(x => x.persona.correo == userName && x.clave == password).Count > 0)
+        return users.Result.ToList().Find(x => x.persona.correo == userName && x.clave == password);
       else
         return null;
     }
@@ -43,9 +43,9 @@ namespace SGEI.Repository
     {
       try
       {
-        var users = _context.usuarios.ToListAsync();
+        var users = _context.usuarios.Include(x => x.persona).ToListAsync();
 
-        if (users.Result.FindAll(x => x.correo == model.User).Count > 0)
+        if (users.Result.FindAll(x => x.persona.correo == model.User).Count > 0)
         {
           const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
           var random = new Random();
@@ -58,7 +58,7 @@ namespace SGEI.Repository
           _mailService.SendEmailAsync(mailRequest);
 
 
-          var user = users.Result.ToList().Find(x => x.correo == model.User);
+          var user = users.Result.ToList().Find(x => x.persona.correo == model.User);
           var data = new CodesResetPasswordxUsers()
           {
             idusuario = user.id,
@@ -96,8 +96,8 @@ namespace SGEI.Repository
     {
       try
       {
-        var users = _context.usuarios.ToListAsync();
-        if (_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.idusuario == users.Result.ToList().Find(x => x.correo == model.User).id && x.codigo == model.Code && x.activo == true).Count > 0)
+        var users = _context.usuarios.Include(x => x.persona).ToListAsync();
+        if (_context.codigoresetearpasswordxusuario.ToList().FindAll(x => x.idusuario == users.Result.ToList().Find(x => x.persona.correo == model.User).id && x.codigo == model.Code && x.activo == true).Count > 0)
         {
           return 1; //success
         }
@@ -117,8 +117,8 @@ namespace SGEI.Repository
     {
       try
       {
-        var users = _context.usuarios.ToListAsync();
-        var user = users.Result.Find(x => x.correo == model.User);
+        var users = _context.usuarios.Include(x => x.persona).ToListAsync();
+        var user = users.Result.Find(x => x.persona.correo == model.User);
         user.clave = model.Password;
         _context.usuarios.Add(user);
         _context.Entry(user).State = EntityState.Modified;

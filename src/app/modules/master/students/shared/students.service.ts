@@ -27,7 +27,7 @@ export class StudentsService {
   }
 
   getStudentById(idStudent: number) {
-    return this.httpClient.get<Student[]>(`${environment.API_BASE_URL}/Student/GetStudentById/${idStudent}`)
+    return this.httpClient.get<Student>(`${environment.API_BASE_URL}/Student/GetStudentById?idStudent=${idStudent}`)
       .toPromise();
   }
 

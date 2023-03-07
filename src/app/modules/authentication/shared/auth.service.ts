@@ -45,8 +45,8 @@ export class AuthService {
   private storeTokens(data: Authenticate) {
     const item = {
       id: data.id,
-      fullName: data.nombres,
-      email: data.correo,
+      fullName: data.persona.nombres,
+      email: data.persona.correo,
     };
     //localStorage.setItem(this.REMEMBER_ME, JSON.stringify(data.rememberMe));
 

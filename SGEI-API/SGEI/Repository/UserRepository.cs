@@ -94,7 +94,7 @@ namespace SGEI.Repository
       }
       else
       {*/
-        var usuarios = _context.usuarios.ToList();
+        var usuarios = _context.usuarios.Include(x => x.persona).ToList();
         foreach (var usuario in usuarios)
         {
           usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
@@ -108,17 +108,17 @@ namespace SGEI.Repository
     {
       try
       {
-        if (model.id > 0 || (model.id <= 0 && _context.usuarios.ToList().Where(x => x.correo == model.correo).ToList().Count == 0))
+        if (model.id > 0 || (model.id <= 0 && _context.usuarios.Include(x => x.persona).Where(x => x.persona.correo == model.persona.correo).ToList().Count == 0))
         {
           if (model.id > 0)
           {
             var user = new User
             {
               id = model.id,
-              nombres = model.nombres,
-              apellidos = model.apellidos,
-              correo = model.correo,
-              cedula = model.cedula,
+              //nombres = model.nombres,
+              //apellidos = model.apellidos,
+              //correo = model.correo,
+              //cedula = model.cedula,
               clave = model.clave,
               activo = model.activo,
             };
@@ -130,10 +130,10 @@ namespace SGEI.Repository
           {
             var user = new User
             {
-              nombres = model.nombres,
-              apellidos = model.apellidos,
-              correo = model.correo,
-              cedula = model.cedula,
+              //nombres = model.nombres,
+              //apellidos = model.apellidos,
+              //correo = model.correo,
+              //cedula = model.cedula,
               clave = model.clave,
               activo = true,
             };

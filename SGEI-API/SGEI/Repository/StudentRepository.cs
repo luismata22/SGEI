@@ -83,7 +83,7 @@ namespace SGEI.Repository
 
     public Student GetStudentById(long idStudent)
     {
-      var student = _context.estudiantes.Where(x => x.Equals(idStudent)).FirstOrDefault();
+      var student = _context.estudiantes.Where(x => x.id.Equals(idStudent)).FirstOrDefault();
       student.personasxestudiante = _context.personasxestudiante.Where(x => x.idestudiante.Equals(student.id)).Include(p => p.persona).ToList();
       return student;
     }
@@ -190,10 +190,10 @@ namespace SGEI.Repository
                   _mailService.SendEmailAsync(mailRequest);
                   var user = new User
                   {
-                    nombres = personsxStudent.persona.nombres,
-                    apellidos = personsxStudent.persona.apellidos,
-                    correo = personsxStudent.persona.correo,
-                    cedula = personsxStudent.persona.cedula,
+                    //nombres = personsxStudent.persona.nombres,
+                    //apellidos = personsxStudent.persona.apellidos,
+                    //correo = personsxStudent.persona.correo,
+                    //cedula = personsxStudent.persona.cedula,
                     clave = encryptPassword,
                     activo = true,
                   };

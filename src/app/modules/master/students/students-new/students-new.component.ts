@@ -8,11 +8,13 @@ import { dtOptions } from 'src/app/modules/utils/dataTableOptions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { PersonxStudent } from 'src/app/models/master/personsxstudent';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-students-new',
   templateUrl: './students-new.component.html',
-  styleUrls: ['./students-new.component.scss']
+  styleUrls: ['./students-new.component.scss'],
+  providers: [DatePipe]
 })
 export class StudentsNewComponent implements OnInit {
 
@@ -29,7 +31,8 @@ export class StudentsNewComponent implements OnInit {
   constructor(private studentsService: StudentsService,
     private notificationService: NotificationService,
     private router: Router,
-    private actRoute: ActivatedRoute,) { }
+    private actRoute: ActivatedRoute,
+    private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.getTypeCourses();
@@ -52,7 +55,15 @@ export class StudentsNewComponent implements OnInit {
   });
 
   getStudent(idStudent: number){
-
+    this.studentsService.getStudentById(idStudent)
+    .then(data => {
+      this.student = {...data};
+      this.student.fechanacimientoString = this.datePipe.transform(new Date(data.fechanacimiento), "yyyy-MM-dd");
+    })
+    .catch(error => {
+      console.log(error)
+      this.notificationService.showError("Ha ocurrido un error al cargar el estudiante", "Error")
+    });
   }
 
   getTypeCourses() {
@@ -73,6 +84,7 @@ export class StudentsNewComponent implements OnInit {
       && this.person.direccion != "" && this.person.fechanacimiento != null) {
       if (this.student.personasxestudiante.filter(x => x.esrepresentante).length == 0) {
         this.savePer = false;
+        this.person.fechanacimiento = new Date(this.person.fechanacimientoString);
         this.student.personasxestudiante.push({
           id: -1,
           idestudiante: -1,
@@ -98,6 +110,7 @@ export class StudentsNewComponent implements OnInit {
   editModal(modal, representative: Person) {
     this.tittleModal = "Editar persona";
     this.person = { ...representative };
+    this.person.fechanacimientoString = this.datePipe.transform(new Date(this.person.fechanacimiento), "yyyy-MM-dd");
     modal.show();
   }
 
@@ -118,6 +131,7 @@ export class StudentsNewComponent implements OnInit {
     if (this.student.nombres != "" && this.student.apellidos != "" && this.student.idtipocurso > 0 && this.student.fechanacimiento != null) {
       if (this.student.personasxestudiante.length > 0) {
         console.log(this.student)
+        this.student.fechanacimiento = new Date(this.student.fechanacimientoString);
         this.studentsService.postStudent({ ...this.student })
           .then(data => {
             this.saveStu = false;
