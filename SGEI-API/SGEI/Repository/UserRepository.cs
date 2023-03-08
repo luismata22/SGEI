@@ -94,14 +94,19 @@ namespace SGEI.Repository
       }
       else
       {*/
-        var usuarios = _context.usuarios.Include(x => x.persona).ToList();
-        foreach (var usuario in usuarios)
-        {
-          usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
-        }
-        return usuarios;
+      var usuarios = _context.usuarios.Include(x => x.persona).ToList();
+      foreach (var usuario in usuarios)
+      {
+        usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
+      }
+      return usuarios;
       //}
-      
+    }
+
+    public User GetUserByIdPerson(long idPerson)
+    {
+      var user = _context.usuarios.Where(x => x.idpersona.Equals(idPerson)).FirstOrDefault();
+      return user;
     }
 
     public long Post(User model)
@@ -112,14 +117,14 @@ namespace SGEI.Repository
         {
           if (model.id > 0)
           {
+            _context.personas.Add(model.persona);
+            _context.SaveChanges();
+
             var user = new User
             {
               id = model.id,
-              //nombres = model.nombres,
-              //apellidos = model.apellidos,
-              //correo = model.correo,
-              //cedula = model.cedula,
               clave = model.clave,
+              idpersona = model.idpersona,
               activo = model.activo,
             };
             _context.ChangeTracker.Clear();
@@ -128,12 +133,16 @@ namespace SGEI.Repository
           }
           else
           {
+            if (model.persona.id <= 0)
+            {
+              model.persona.id = 0;
+              _context.personas.Add(model.persona);
+              _context.SaveChanges();
+            }
+
             var user = new User
             {
-              //nombres = model.nombres,
-              //apellidos = model.apellidos,
-              //correo = model.correo,
-              //cedula = model.cedula,
+              idpersona = model.persona.id,
               clave = model.clave,
               activo = true,
             };
@@ -147,7 +156,7 @@ namespace SGEI.Repository
           {
             if (model.id > 0)
             {
-              if(_context.rolesxusuario.Where(x => x.idusuario == model.id).ToList().Count > 0)
+              if (_context.rolesxusuario.Where(x => x.idusuario == model.id).ToList().Count > 0)
               {
                 _context.rolesxusuario.RemoveRange(_context.rolesxusuario.Where(x => x.idusuario == model.id));
                 _context.SaveChanges();

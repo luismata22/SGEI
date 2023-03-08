@@ -25,5 +25,13 @@ namespace SGEI.Controllers
       List<Person> result = _personRepository.GetPersons();
       return new JsonResult(result);
     }
+
+    [AllowAnonymous]
+    [HttpGet("GetPersonByDocumentNumber")]
+    public ActionResult<Person> GetPersonByDocumentNumber(string documentNumber)
+    {
+      Person result = _personRepository.GetPersonByDocumentNumber(documentNumber);
+      return new JsonResult(result);
+    }
   }
 }

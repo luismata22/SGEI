@@ -8,6 +8,8 @@ namespace SGEI.Interfaces
   {
     List<User> GetUsers(UserFilters filter);
 
+    User GetUserByIdPerson(long idPerson);
+
     long Post(User model);
   }
 }

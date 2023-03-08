@@ -29,6 +29,14 @@ namespace SGEI.Controllers
     }
 
     [AllowAnonymous]
+    [HttpGet("GetUserByIdPerson")]
+    public ActionResult<User> GetUserByIdPerson(long idPerson)
+    {
+      User result = _userRepository.GetUserByIdPerson(idPerson);
+      return new JsonResult(result);
+    }
+
+    [AllowAnonymous]
     [HttpPost]
     public ActionResult<long> Post(User model)
     {

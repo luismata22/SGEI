@@ -46,8 +46,7 @@
   <div class="col-sm-12">
     <app-card cardTitle="Usuarios">
       <div class="table-responsive">
-        <table datatable class="row-border hover" *ngIf="userList.length > 0"
-          [dtOptions]="dtOptions">
+        <table datatable class="row-border hover" *ngIf="userList.length > 0" [dtOptions]="dtOptions">
           <thead>
             <tr>
               <th>Nombres</th>
@@ -91,6 +90,20 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
+          <label for="name">Cédula <span style="color: red">*</span></label>
+          <div class="input-group">
+            <input type="text" class="form-control" (keyup.backspace)="clearPerson()" (keyup.enter)="searchPersonbyDocumentNumber()" [(ngModel)]="user.persona.cedula" id="documentNumber">
+            <div class="input-group-append" *ngIf="user.id <= 0">
+              <button class="btn btn-primary" type="button" [placement]="'top'" ngbTooltip="Buscar cédula"
+                (click)="searchPersonbyDocumentNumber()"><i class="feather icon-search"></i></button>
+            </div>
+          </div>
+          <small style="color: red" *ngIf="save && user.persona.cedula == ''">* La cédula es requerida</small>
+          <small style="color: red" *ngIf="searchPerson && user.persona.cedula == ''">* Ingrese una cédula</small>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
           <label for="name">Nombres <span style="color: red">*</span></label>
           <input type="text" class="form-control" [(ngModel)]="user.persona.nombres" id="name">
           <small style="color: red" *ngIf="save && user.persona.nombres == ''">* El nombre es requerido</small>
@@ -105,21 +118,6 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <label for="name">Cédula <span style="color: red">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="user.persona.cedula" id="documentNumber">
-          <small style="color: red" *ngIf="save && user.persona.cedula == ''">* La cédula es requerida</small>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="name">Correo electrónico <span style="color: red">*</span></label>
-          <input type="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" class="form-control" [(ngModel)]="user.persona.correo" id="email">
-          <small style="color: red" *ngIf="save && user.persona.correo == ''">* El correo es requerido</small>
-          <small style="color: red" *ngIf="save && !validateEmail">* El correo es inválido</small>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
           <label for="name">Roles <span style="color: red">*</span></label>
           <angular2-multiselect [settings]="dropdownSettings" [data]="roleList" [(ngModel)]="selectedRoles">
           </angular2-multiselect>
@@ -128,10 +126,20 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
+          <label for="name">Correo electrónico <span style="color: red">*</span></label>
+          <input type="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" class="form-control"
+            [(ngModel)]="user.persona.correo" id="email">
+          <small style="color: red" *ngIf="save && user.persona.correo == ''">* El correo es requerido</small>
+          <small style="color: red" *ngIf="save && !validateEmail">* El correo es inválido</small>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
           <label for="name">Contraseña <span style="color: red">*</span></label>
           <input type="password" class="form-control" [(ngModel)]="user.clave" id="password">
           <small style="color: red" *ngIf="save && user.clave == ''">* La contraseña es requerida</small>
-          <small style="color: red" *ngIf="save && user.clave.length < maxLengthPassword">* La contraseña debe tener al menos 8 carácteres</small>
+          <small style="color: red" *ngIf="save && user.clave.length < maxLengthPassword">* La contraseña debe tener al
+            menos 8 carácteres</small>
         </div>
       </div>
       <div class="col-md-6">
@@ -140,8 +148,7 @@
           <input type="password" class="form-control" [(ngModel)]="repetirClave" id="repeatPassword">
           <small style="color: red" *ngIf="save && repetirClave == ''">* La confirmación de la contraseña es
             requerida</small>
-          <small style="color: red" *ngIf="save && repetirClave != user.clave">* La confirmación de la contraseña es
-            requerida</small>
+          <small style="color: red" *ngIf="save && repetirClave != user.clave">* Las contraseñas no son iguales</small>
         </div>
       </div>
       <div class="col-md-6" *ngIf="user.id > 0">
@@ -154,8 +161,8 @@
         </div>
       </div>
       <div class="col-md-12">
-        <small style="color: red">(*) Campos obligatorios</small>
-        <small style="color: red">(*) La contraseña debe tener al menos 8 carácteres</small>
+        <div><small style="color: red">(*) Campos obligatorios</small></div>
+        <div><small style="color: red">(*) La contraseña debe tener al menos 8 carácteres</small></div>
       </div>
     </div>
   </div>

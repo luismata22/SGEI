@@ -19,6 +19,12 @@ export class UserService {
       .toPromise();
   }
 
+  getUserByIdPerson(idPerson: number) {
+    return this.httpClient.get<User>(`${environment.API_BASE_URL}/User/GetUserByIdPerson?idPerson=${idPerson}`)
+      .toPromise();
+  }
+
+
   postUser(data: User) {
     return this.httpClient.post<number>(`${environment.API_BASE_URL}/User`, data)
       .toPromise();

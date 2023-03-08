@@ -31,6 +31,11 @@ export class StudentsService {
       .toPromise();
   }
 
+  getPersonByDocumentNumber(documentNumber: string) {
+    return this.httpClient.get<Person>(`${environment.API_BASE_URL}/Person/GetPersonByDocumentNumber?documentNumber=${documentNumber}`)
+      .toPromise();
+  }
+
   postStudent(data: Student) {
     return this.httpClient.post<number>(`${environment.API_BASE_URL}/Student`, data)
       .toPromise();

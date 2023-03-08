@@ -8,6 +8,7 @@ import { RoleListComponent } from './roles/role-list/role-list.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { DataTablesModule } from 'angular-datatables';
 import { ProfileComponent } from './profile/profile.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -22,7 +23,8 @@ import { ProfileComponent } from './profile/profile.component';
     SecurityRoutingModule,
     SharedModule,
     AngularMultiSelectModule,
-    DataTablesModule
+    DataTablesModule,
+    NgbTooltipModule
   ],
 })
 export class SecurityModule { }

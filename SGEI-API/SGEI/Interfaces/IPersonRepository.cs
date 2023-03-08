@@ -6,5 +6,7 @@ namespace SGEI.Interfaces
   public interface IPersonRepository
   {
     List<Person> GetPersons();
+
+    Person GetPersonByDocumentNumber(string documentNumber);
   }
 }

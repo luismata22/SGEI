@@ -177,39 +177,39 @@ namespace SGEI.Repository
 
                 if (personsxStudent.persona.id <= 0 && personsxStudent.esrepresentante)
                 {
-                  const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-                  var random = new Random();
-                  var code = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
-                  //var passwordDecrypt = EncryptPasswords.DecryptWithAes(code, representante.correo);
-                  var encryptPassword = EncryptPasswords.EncryptWithHash(code);
-
-                  var mailRequest = new MailRequest();
-                  mailRequest.ToEmail = personsxStudent.persona.correo;
-                  mailRequest.Subject = "Código de seguridad (Resstablecer contraseña)";
-                  mailRequest.Body = "<html>\r\n    <head>\r\n\r\n    </head>\r\n    <body>\r\n        <p>Hola</p><br>\r\n        <p>Este es el código de seguridad para cambiar la contraseña: " + code + "</p>\r\n    </body>\r\n</html>";
-                  _mailService.SendEmailAsync(mailRequest);
-                  var user = new User
+                  if(_context.usuarios.Where(x => x.idpersona.Equals(personsxStudent.persona.id <= 0 ? person.id : personsxStudent.persona.id)).ToList().Count == 0)
                   {
-                    //nombres = personsxStudent.persona.nombres,
-                    //apellidos = personsxStudent.persona.apellidos,
-                    //correo = personsxStudent.persona.correo,
-                    //cedula = personsxStudent.persona.cedula,
-                    clave = encryptPassword,
-                    activo = true,
-                  };
-                  _context.ChangeTracker.Clear();
-                  _context.usuarios.Add(user);
-                  _context.SaveChanges();
+                    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+                    var random = new Random();
+                    var code = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
+                    //var passwordDecrypt = EncryptPasswords.DecryptWithAes(code, representante.correo);
+                    var encryptPassword = EncryptPasswords.EncryptWithHash(code);
 
-                  var role = _context.roles.Where(x => x.key == "repre").FirstOrDefault();
-                  var rolesxusuario = new RolesxUsuario
-                  {
-                    idusuario = model.id,
-                    idrol = role.id,
-                    activo = true,
-                  };
-                  _context.rolesxusuario.Add(rolesxusuario);
-                  _context.SaveChanges();
+                    var mailRequest = new MailRequest();
+                    mailRequest.ToEmail = personsxStudent.persona.correo;
+                    mailRequest.Subject = "Código de seguridad (Resstablecer contraseña)";
+                    mailRequest.Body = "<html>\r\n    <head>\r\n\r\n    </head>\r\n    <body>\r\n        <p>Hola</p><br>\r\n        <p>Este es el código de seguridad para cambiar la contraseña: " + code + "</p>\r\n    </body>\r\n</html>";
+                    _mailService.SendEmailAsync(mailRequest);
+                    var user = new User
+                    {
+                      idpersona = personsxStudent.persona.id <= 0 ? person.id : personsxStudent.persona.id,
+                      clave = encryptPassword,
+                      activo = true,
+                    };
+                    _context.ChangeTracker.Clear();
+                    _context.usuarios.Add(user);
+                    _context.SaveChanges();
+
+                    var role = _context.roles.Where(x => x.key == "repre").FirstOrDefault();
+                    var rolesxusuario = new RolesxUsuario
+                    {
+                      idusuario = model.id,
+                      idrol = role.id,
+                      activo = true,
+                    };
+                    _context.rolesxusuario.Add(rolesxusuario);
+                    _context.SaveChanges();
+                  }
                 }
               }
 
