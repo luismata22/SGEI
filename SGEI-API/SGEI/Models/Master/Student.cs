@@ -22,6 +22,8 @@ namespace SGEI.Models.Master
 
     public DateTime fecharegistro { get; set; }
 
+    public bool activo { get; set; }
+
     [ForeignKey(nameof(idtipocurso))]
     public TypeCourse tipocurso { get; set; }
 

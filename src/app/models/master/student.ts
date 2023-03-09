@@ -11,4 +11,5 @@ export class Student{
     personasxestudiante: PersonxStudent[] = [];
     tipocurso: TypeCourse = new TypeCourse();
     fechanacimientoString: string = "";
+    activo: boolean = false;
 }

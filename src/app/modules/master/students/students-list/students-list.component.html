@@ -1,155 +1,77 @@
 <div class="row">
-    <div class="col-sm-12">
-      <app-card cardTitle="Filtro">
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="name">Nombre</label>
-              <input type="text" class="form-control" id="name">
-              <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-            </div>
-  
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="email">Correo electrónico</label>
-              <input type="email" class="form-control" id="email">
-              <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="card">Cédula</label>
-              <input type="text" class="form-control" id="card">
-              <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="status">Estatus</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option value="-1">Todos</option>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
-              </select>
-              <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-            </div>
-          </div>
-          <div class="col-md-12" style="text-align: right;">
-            <button type="button" class="btn btn-primary" style="margin-top: 5px;">Buscar</button>
-            <button type="button" class="btn btn-success" (click)="newStudent()" 
-              style="margin-top: 5px; margin-left: 10px;">Nuevo</button>
-          </div>
-        </div>
-      </app-card>
-    </div>
-    <div class="col-sm-12">
-      <app-card cardTitle="Alumnos">
-        <div class="table-responsive">
-          <table *ngIf="studentList.length > 0" datatable class="table table-hover" [dtOptions]="dtOptions">
-            <thead>
-              <tr>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Tipo de curso</th>
-                <th>Estatus</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let student of studentList">
-                <td>{{student.nombres}}</td>
-                <td>{{student.apellidos}}</td>
-                <td>{{student.tipocurso.nombre}}</td>
-                <td>{{student.activo ? 'Activo' : 'Inactivo'}}</td>
-                <td><button type="button" class="btn btn-icon btn-primary" (click)="editStudent(student)"
-                    style="margin-top: 5px; margin-left: 10px;"><i class="feather icon-edit"></i></button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </app-card>
-    </div>
-  </div>
-  
-  <!-- <app-ui-modal #modalDefault [dialogClass]="'modal-lg'">
-    <div class="app-modal-header">
-      <h5 class="modal-title">{{tittleModal}}</h5>
-      <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
-        (click)="modalDefault.hide()"><span aria-hidden="true">&times;</span></button>
-    </div>
-    <div class="app-modal-body">
+  <div class="col-sm-12">
+    <app-card cardTitle="Filtro">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-3">
           <div class="form-group">
-            <label for="name">Nombres <span style="color: red">*</span></label>
-            <input type="text" class="form-control" [(ngModel)]="user.nombres" id="name">
-            <small style="color: red" *ngIf="save && user.nombres == ''">* El nombre es requerido</small>
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" id="name">
+            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+          </div>
+
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" class="form-control" id="email">
+            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <div class="form-group">
-            <label for="name">Apellidos <span style="color: red">*</span></label>
-            <input type="text" class="form-control" [(ngModel)]="user.apellidos" id="lastname">
-            <small style="color: red" *ngIf="save && user.nombres == ''">* El apellido es requerido</small>
+            <label for="card">Cédula</label>
+            <input type="text" class="form-control" id="card">
+            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="name">Cédula <span style="color: red">*</span></label>
-            <input type="text" class="form-control" [(ngModel)]="user.cedula" id="documentNumber">
-            <small style="color: red" *ngIf="save && user.cedula == ''">* La cédula es requerida</small>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="name">Correo electrónico <span style="color: red">*</span></label>
-            <input type="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" class="form-control" [(ngModel)]="user.correo" id="email">
-            <small style="color: red" *ngIf="save && user.correo == ''">* El correo es requerido</small>
-            <small style="color: red" *ngIf="save && !validateEmail">* El correo es inválido</small>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="name">Roles <span style="color: red">*</span></label>
-            <angular2-multiselect [settings]="dropdownSettings" [data]="roleList" [(ngModel)]="selectedRoles">
-            </angular2-multiselect>
-            <small style="color: red" *ngIf="save && user.correo == ''">* El correo es requerido</small>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="name">Contraseña <span style="color: red">*</span></label>
-            <input type="password" class="form-control" [(ngModel)]="user.clave" id="password">
-            <small style="color: red" *ngIf="save && user.clave == ''">* La contraseña es requerida</small>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="name">Confirmar contraseña <span style="color: red">*</span></label>
-            <input type="password" class="form-control" [(ngModel)]="repetirClave" id="repeatPassword">
-            <small style="color: red" *ngIf="save && repetirClave == ''">* La confirmación de la contraseña es
-              requerida</small>
-            <small style="color: red" *ngIf="save && repetirClave != user.clave">* La confirmación de la contraseña es
-              requerida</small>
-          </div>
-        </div>
-        <div class="col-md-6" *ngIf="user.id > 0">
+        <div class="col-md-3">
           <div class="form-group">
             <label for="status">Estatus</label>
-            <select class="form-control" [(ngModel)]="user.activo">
-              <option [value]="true">Activo</option>
-              <option [value]="false">Inactivo</option>
+            <select class="form-control" id="exampleFormControlSelect1">
+              <option value="-1">Todos</option>
+              <option value="1">Activo</option>
+              <option value="0">Inactivo</option>
             </select>
+            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
           </div>
         </div>
-        <div class="col-md-12">
-          <small style="color: red">(*) Campos obligatorios</small>
+        <div class="col-md-12" style="text-align: right;">
+          <button type="button" class="btn btn-primary" style="margin-top: 5px;">Buscar</button>
+          <button type="button" class="btn btn-success" (click)="newStudent()"
+            style="margin-top: 5px; margin-left: 10px;">Nuevo</button>
         </div>
       </div>
-    </div>
-    <div class="app-modal-footer">
-      <button type="button" class="btn btn-primary" (click)="saveUser(modalDefault)">Guardar</button>
-    </div>
-  
-  </app-ui-modal> -->
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Alumnos">
+      <div class="table-responsive">
+        <table *ngIf="studentList.length > 0" datatable class="table table-hover" [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Tipo de curso</th>
+              <th>Estatus</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of studentList">
+              <td>{{student.nombres}}</td>
+              <td>{{student.apellidos}}</td>
+              <td>{{student.tipocurso.nombre}}</td>
+              <td>{{student.activo ? 'Activo' : 'Inactivo'}}</td>
+              <td><button type="button" class="btn btn-icon btn-secondary" (click)="viewProfile(student)"
+                  style="margin-top: 5px; margin-left: 10px;" ngbTooltip="Ver perfil"><i
+                    class="feather icon-eye"></i></button>
+                <button type="button" class="btn btn-icon btn-primary" (click)="editStudent(student)"
+                  style="margin-top: 5px; margin-left: 10px;"><i class="feather icon-edit" ngbTooltip="Editar"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+  </div>
+</div>

@@ -97,7 +97,8 @@
                                 <td>{{personasxestudiante.persona.telefono}}</td>
                                 <td>{{personasxestudiante.persona.correo}}</td>
                                 <td>{{personasxestudiante.persona.direccion}}</td>
-                                <td><input type="checkbox" [(ngModel)]="personasxestudiante.esrepresentante" (change)="checkSelected(personasxestudiante);" id="exampleCheck1"></td>
+                                <td><input type="checkbox" [(ngModel)]="personasxestudiante.esrepresentante"
+                                        (change)="checkSelected(personasxestudiante);" id="exampleCheck1"></td>
                                 <td><button type="button" class="btn btn-icon btn-primary"
                                         (click)="editModal(addPersonModal, personasxestudiante.persona)"
                                         style="margin-top: 5px; margin-left: 10px;"><i
@@ -124,14 +125,34 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    
+                    <table *ngIf="uploader.queue.length > 0" datatable class="row-border hover" [dtOptions]="dtOptions">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Tamaño</th>
+                                <th>Foto de perfil</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let file of uploader.queue">
+                                <td>{{file?.file?.name}}</td>
+                                <td>{{file?.file?.size/1024/1024 | number:'.2'}}</td>
+                                <td><input type="checkbox" id="exampleCheck1"></td>
+                                <td><button type="button" class="btn btn-icon btn-danger"
+                                        style="margin-top: 5px; margin-left: 10px;"><i
+                                            class="feather icon-trash-2"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </app-card>
     </div>
     <div class="col-sm-12" style="text-align: right;">
         <button type="button" class="btn btn-secondary" (click)="back()">Regresar</button>
-        <button type="button" class="btn btn-light" style="margin-left: 10px;" (click)="clear()" *ngIf="student.id <= 0">Limpiar</button>
+        <button type="button" class="btn btn-light" style="margin-left: 10px;" (click)="clear()"
+            *ngIf="student.id <= 0">Limpiar</button>
         <button type="button" class="btn btn-success" style="margin-left: 10px;"
             (click)="saveStudent()">Guardar</button>
     </div>
@@ -170,7 +191,8 @@
                 <div class="form-group">
                     <label for="name">Fecha de nacimiento <span style="color: red">*</span></label>
                     <input type="date" class="form-control" [(ngModel)]="person.fechanacimientoString" id="name">
-                    <small style="color: red" *ngIf="savePer && person.fechanacimientoString == ''">* La fecha de nacimiento
+                    <small style="color: red" *ngIf="savePer && person.fechanacimientoString == ''">* La fecha de
+                        nacimiento
                         es
                         requerido</small>
                 </div>
@@ -186,11 +208,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">Correo <span style="color: red">*</span></label>
-                    <input type="text" class="form-control" [(ngModel)]="person.correo" id="name">
+                    <input type="text" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" class="form-control"
+                        [(ngModel)]="person.correo" id="name">
                     <small style="color: red" *ngIf="savePer && person.correo == ''">* La correo es requerido</small>
+                    <small style="color: red" *ngIf="savePer && !validateEmail">* El correo es inválido</small>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="form-group">
                     <label for="name">Dirección <span style="color: red">*</span></label>
                     <input type="text" class="form-control" [(ngModel)]="person.direccion" id="name">
@@ -232,9 +256,12 @@
                             <td>{{person.apellidos}}</td>
                             <td>{{person.cedula}}</td>
                             <td>{{person.correo}}</td>
-                            <td><button type="button" class="btn btn-icon btn-primary"
-                                    (click)="selectPerson(person, searchPersonModal)" style="margin-top: 5px; margin-left: 10px;"><i
-                                        class="feather icon-check"></i></button></td>
+                            <td>
+                                <button type="button" class="btn btn-icon btn-primary"
+                                    (click)="selectPerson(person, searchPersonModal)"
+                                    style="margin-top: 5px; margin-left: 10px;" ngbTooltip="Editar"><i
+                                        class="feather icon-check"></i></button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -38,6 +38,7 @@ namespace SGEI.Repository
               id = model.id,
               nombre = model.nombre,
               descripcion = model.descripcion,
+              key = model.key,
               activo = model.activo,
             };
             _context.ChangeTracker.Clear();

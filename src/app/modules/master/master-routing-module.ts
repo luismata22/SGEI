@@ -17,7 +17,7 @@ const routes: Routes = [
     component: StudentsNewComponent
   },
   {
-    path: 'student-profile',
+    path: 'student-profile/:id',
     canActivate: [AuthGuard],
     component: StudentProfileComponent
   },

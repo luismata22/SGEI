@@ -27,6 +27,17 @@ export class StudentsNewComponent implements OnInit {
   saveStu: boolean = false;
   dtOptions = dtOptions;
   personsList: Person[] = [];
+  regexEmail = new RegExp("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+  validateEmail: boolean = true;
+
+  public uploader: FileUploader = new FileUploader({
+    url: 'http://localhost:3000/fileupload/',
+    disableMultipart: false,
+    autoUpload: true,
+    method: 'post',
+    itemAlias: 'attachment',
+    allowedFileType: ['image', 'pdf']
+  });
 
   constructor(private studentsService: StudentsService,
     private notificationService: NotificationService,
@@ -37,33 +48,24 @@ export class StudentsNewComponent implements OnInit {
   ngOnInit(): void {
     this.getTypeCourses();
     var idStudent = parseInt(this.actRoute.snapshot.params['id']);
-    if(idStudent > 0){
+    if (idStudent > 0) {
       this.tittleString = "Editar estudiante";
       this.getStudent(idStudent);
-    }else{
+    } else {
       this.tittleString = "Crear estudiante";
     }
   }
 
-  public uploader: FileUploader = new FileUploader({
-    url: "http://localhost:3000/fileupload/",
-    disableMultipart : false,
-    autoUpload: true,
-    method: 'post',
-    itemAlias: 'attachment',
-    allowedFileType: ['image', 'pdf']
-  });
-
-  getStudent(idStudent: number){
+  getStudent(idStudent: number) {
     this.studentsService.getStudentById(idStudent)
-    .then(data => {
-      this.student = {...data};
-      this.student.fechanacimientoString = this.datePipe.transform(new Date(data.fechanacimiento), "yyyy-MM-dd");
-    })
-    .catch(error => {
-      console.log(error)
-      this.notificationService.showError("Ha ocurrido un error al cargar el estudiante", "Error")
-    });
+      .then(data => {
+        this.student = { ...data };
+        this.student.fechanacimientoString = this.datePipe.transform(new Date(data.fechanacimiento), "yyyy-MM-dd");
+      })
+      .catch(error => {
+        console.log(error)
+        this.notificationService.showError("Ha ocurrido un error al cargar el estudiante", "Error")
+      });
   }
 
   getTypeCourses() {
@@ -81,10 +83,12 @@ export class StudentsNewComponent implements OnInit {
   savePerson(modal) {
     this.savePer = true;
     if (this.person.nombres != "" && this.person.apellidos != "" && this.person.cedula != "" && this.person.correo != ""
-      && this.person.direccion != "" && this.person.fechanacimiento != null) {
-      if (this.student.personasxestudiante.filter(x => x.esrepresentante).length == 0) {
+      && this.person.direccion != "" && this.person.fechanacimientoString != "") {
+      if (this.regexEmail.test(this.person.correo)) {
+        this.validateEmail = true;
         this.savePer = false;
-        this.person.fechanacimiento = new Date(this.person.fechanacimientoString);
+        var strdate = this.person.fechanacimientoString.split('-');
+        this.person.fechanacimiento = new Date(parseInt(strdate[0]), parseInt(strdate[1]) - 1, parseInt(strdate[2]));
         this.student.personasxestudiante.push({
           id: -1,
           idestudiante: -1,
@@ -96,7 +100,7 @@ export class StudentsNewComponent implements OnInit {
         });
         modal.hide();
       } else {
-        this.notificationService.showError("Ya existe una persona como representante", "Error")
+        this.validateEmail = false;
       }
     }
   }
@@ -128,25 +132,30 @@ export class StudentsNewComponent implements OnInit {
 
   saveStudent() {
     this.saveStu = true;
-    if (this.student.nombres != "" && this.student.apellidos != "" && this.student.idtipocurso > 0 && this.student.fechanacimiento != null) {
+    if (this.student.nombres != "" && this.student.apellidos != "" && this.student.idtipocurso > 0 && this.student.fechanacimientoString != "") {
       if (this.student.personasxestudiante.length > 0) {
-        console.log(this.student)
-        this.student.fechanacimiento = new Date(this.student.fechanacimientoString);
-        this.studentsService.postStudent({ ...this.student })
-          .then(data => {
-            this.saveStu = false;
-            if (data > 0) {
-              this.notificationService.showSuccess("Estudiante guardado exitosamente", "Éxito")
-            } else if (data == -1) {
-              this.notificationService.showWarning("Estudiante ya registrado", "Alerta")
-            } else {
+        if (this.student.personasxestudiante.filter(x => x.esrepresentante).length > 0) {
+          var strdate = this.student.fechanacimientoString.split('-');
+          this.student.fechanacimiento = new Date(parseInt(strdate[0]), parseInt(strdate[1]) - 1, parseInt(strdate[2]));
+          //this.student.fechanacimiento = new Date(this.student.fechanacimientoString);
+          this.studentsService.postStudent({ ...this.student })
+            .then(data => {
+              this.saveStu = false;
+              if (data > 0) {
+                this.notificationService.showSuccess("Estudiante guardado exitosamente", "Éxito")
+              } else if (data == -1) {
+                this.notificationService.showWarning("Estudiante ya registrado", "Alerta")
+              } else {
+                this.notificationService.showError("Ha ocurrido un error", "Error")
+              }
+            })
+            .catch(error => {
+              console.log(error)
               this.notificationService.showError("Ha ocurrido un error", "Error")
-            }
-          })
-          .catch(error => {
-            console.log(error)
-            this.notificationService.showError("Ha ocurrido un error", "Error")
-          });
+            });
+        } else {
+          this.notificationService.showWarning("Seleccione una persona como representante", "Alerta")
+        }
       } else {
         this.notificationService.showWarning("Asigne un representante", "Alerta")
       }
@@ -170,7 +179,7 @@ export class StudentsNewComponent implements OnInit {
   }
 
   selectPerson(representante: Person, modal) {
-    if(this.student.personasxestudiante.filter(x => x.persona.id == representante.id).length == 0){
+    if (this.student.personasxestudiante.filter(x => x.persona.id == representante.id).length == 0) {
       this.student.personasxestudiante.push({
         id: -1,
         idestudiante: -1,
@@ -181,10 +190,10 @@ export class StudentsNewComponent implements OnInit {
         esrepresentante: false
       });
       modal.hide();
-    }else{
+    } else {
       this.notificationService.showWarning("Esta representante ya se encuentra en la lista", "Alerta")
     }
-    
+
   }
 
   public onFileSelected(event: EventEmitter<File[]>) {
@@ -192,7 +201,7 @@ export class StudentsNewComponent implements OnInit {
     console.log(file);
   }
 
-  checkSelected(personxStudent: PersonxStudent){
+  checkSelected(personxStudent: PersonxStudent) {
     this.student.personasxestudiante.filter(x => x != personxStudent).map(x => {
       x.esrepresentante = false;
     })

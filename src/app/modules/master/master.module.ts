@@ -8,7 +8,7 @@ import { StudentsNewComponent } from './students/students-new/students-new.compo
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { FileUploadModule } from 'ng2-file-upload';
 import { StudentProfileComponent } from './students/student-profile/student-profile.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -25,7 +25,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DataTablesModule,
     AngularFileUploaderModule,
     FileUploadModule,
-    NgbModule
+    NgbModule,
+    NgbTooltipModule
   ]
 })
 export class MasterModule { }

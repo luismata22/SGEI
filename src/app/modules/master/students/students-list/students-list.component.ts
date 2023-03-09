@@ -44,4 +44,8 @@ export class StudentsListComponent implements OnInit {
   editStudent(student: Student){
     this.router.navigate(["/students-new", student.id])
   }
+
+  viewProfile(student: Student){
+    this.router.navigate(["/student-profile", student.id])
+  }
 }

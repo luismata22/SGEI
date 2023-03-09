@@ -6,8 +6,10 @@
                     <img src="https://www.w3schools.com/howto/img_avatar.png" style="width: 200px;">
                 </div>
                 <div class="col-sm-9">
-                    <h5>Luis Mata</h5>
-                    <h6>Masculino</h6>
+                    <h4>{{student.nombres + " " + student.apellidos}}</h4>
+                    <h6><b>Sexo: </b>No asignado</h6>
+                    <h6><b>Fecha de nacimiento: </b>{{student.fechanacimientoString}}</h6>
+                    <h6><b>Tipo de curso: </b>{{student.tipocurso.nombre}}</h6>
                 </div>
                 <div class="col-sm-12">
                     <hr>
