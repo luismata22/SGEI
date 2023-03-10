@@ -7,7 +7,6 @@
                         <label for="name">Nombre</label>
                         <input type="text" class="form-control" id="name" [(ngModel)]="filter.nombre"
                             (keyup.enter)="getRoles()">
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -18,7 +17,6 @@
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                         </select>
-                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     </div>
                 </div>
                 <div class="col-md-12" style="text-align: right;">
@@ -33,8 +31,7 @@
     <div class="col-sm-12">
         <app-card cardTitle="Roles">
             <div class="table-responsive">
-                <table *ngIf="roleList.length > 0" datatable class="row-border hover"
-                    [dtOptions]="dtOptions">
+                <table *ngIf="roleList.length > 0" datatable class="row-border hover" [dtOptions]="dtOptions">
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -50,9 +47,13 @@
                             <td>{{role.descripcion}}</td>
                             <td>
                                 <span class="badge m-r-5 badge-pill badge-primary"
-                                    *ngFor="let permisosxmoduloxrole of role.permisosxmoduloxrole">
-                                    {{permisosxmoduloxrole.permisosxmodulo.modulo.nombre}} - 
+                                    *ngFor="let permisosxmoduloxrole of getPermissionsxModulexRole(role.permisosxmoduloxrole)">
+                                    {{permisosxmoduloxrole.permisosxmodulo.modulo.nombre}} -
                                     {{permisosxmoduloxrole.permisosxmodulo.permiso.nombre}}
+                                </span>
+                                <span class="badge m-r-5 badge-pill badge-info"
+                                    *ngIf="role.permisosxmoduloxrole.length > 3">
+                                    ...
                                 </span>
                             </td>
                             <td>{{role.activo ? 'Activo' : 'Inactivo'}}</td>
@@ -105,7 +106,8 @@
             <div class="col-md-3" *ngFor="let module of modulesList">
                 <h5>{{module.nombre}}</h5>
                 <div class="form-check" *ngFor="let permissionxmodule of gerPermissionxmodule(module)">
-                    <input class="form-check-input" type="checkbox" id="gridCheck1" [(ngModel)]="permissionxmodule.checked">
+                    <input class="form-check-input" type="checkbox" id="gridCheck1"
+                        [(ngModel)]="permissionxmodule.checked">
                     <label class="form-check-label" for="gridCheck1">{{permissionxmodule.permiso.nombre}}</label>
                 </div>
             </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Module } from 'src/app/models/security/module';
 import { Permissions } from 'src/app/models/security/permissions';
 import { PermissionxModule } from 'src/app/models/security/permissionxmodule';
+import { PermissionxModulexRole } from 'src/app/models/security/permissionxmodulexrole';
 import { PermissionxRole } from 'src/app/models/security/permissionxrole';
 import { Role } from 'src/app/models/security/role';
 import { RoleFilter } from 'src/app/models/security/role-filters';
@@ -130,5 +131,13 @@ export class RoleListComponent implements OnInit {
     role.permisosxmoduloxrole.map(x => {
       this.permissionsxmoduleList.find(p => p.id == x.idpermisoxmodulo).checked = true;
     })
+  }
+
+  getPermissionsxModulexRole(permissionsxModulexRole: PermissionxModulexRole[]){
+    var list: PermissionxModulexRole[] = [];
+    for (let index = 0; index < (permissionsxModulexRole.length > 3 ? 3 : permissionsxModulexRole.length); index++) {
+      list.push({...permissionsxModulexRole[index]})
+    }
+    return list;
   }
 }

@@ -20,87 +20,12 @@ namespace SGEI.Repository
 
     public List<User> GetUsers(UserFilters filter)
     {
-      /*if (!String.IsNullOrEmpty(filter.Nombre) && !String.IsNullOrEmpty(filter.Correo) && !String.IsNullOrEmpty(filter.Cedula) && filter.Activo > -1)
-      {
-        var usuarios = _context.usuarios.ToList();
-        foreach (var usuario in usuarios)
-        {
-          usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
-        }
-        return usuarios;
-      }
-      else if (String.IsNullOrEmpty(filter.Nombre) && !String.IsNullOrEmpty(filter.Correo) && !String.IsNullOrEmpty(filter.Cedula) && filter.Activo > -1)
-      {
-        var usuarios = _context.usuarios.ToList();
-        foreach (var usuario in usuarios)
-        {
-          usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
-        }
-        return usuarios;
-      }
-      else if (String.IsNullOrEmpty(filter.Nombre) && String.IsNullOrEmpty(filter.Correo) && !String.IsNullOrEmpty(filter.Cedula) && filter.Activo > -1)
-      {
-        var usuarios = _context.usuarios.ToList();
-        foreach (var usuario in usuarios)
-        {
-          usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
-        }
-        return usuarios;
-      }
-      else if (String.IsNullOrEmpty(filter.Nombre) && String.IsNullOrEmpty(filter.Correo) && String.IsNullOrEmpty(filter.Cedula) && filter.Activo > -1)
-      {
-        var usuarios = _context.usuarios.ToList();
-        foreach (var usuario in usuarios)
-        {
-          usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
-        }
-        return usuarios;
-      }
-      else if (String.IsNullOrEmpty(filter.Nombre) && !String.IsNullOrEmpty(filter.Correo) && String.IsNullOrEmpty(filter.Cedula) && filter.Activo > -1)
-      {
-        var usuarios = _context.usuarios.ToList();
-        foreach (var usuario in usuarios)
-        {
-          usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
-        }
-        return usuarios;
-      }
-      else if (String.IsNullOrEmpty(filter.Nombre) && !String.IsNullOrEmpty(filter.Correo) && !String.IsNullOrEmpty(filter.Cedula) && filter.Activo > -1)
-      {
-        var usuarios = _context.usuarios.ToList();
-        foreach (var usuario in usuarios)
-        {
-          usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
-        }
-        return usuarios;
-      }
-      else if (String.IsNullOrEmpty(filter.Nombre) && !String.IsNullOrEmpty(filter.Correo) && String.IsNullOrEmpty(filter.Cedula) && filter.Activo > -1)
-      {
-        var usuarios = _context.usuarios.ToList();
-        foreach (var usuario in usuarios)
-        {
-          usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
-        }
-        return usuarios;
-      }
-      else if (!String.IsNullOrEmpty(filter.Nombre) && filter.Activo == -1)
-      {
-        var usuarios = _context.usuarios.ToList();
-        foreach (var usuario in usuarios)
-        {
-          usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
-        }
-        return usuarios;
-      }
-      else
-      {*/
-      var usuarios = _context.usuarios.Include(x => x.persona).ToList();
+      var usuarios = _context.usuarios.Include(x => x.persona).Where(x => x.persona.nombres.ToLower().Contains(filter.Nombre == null ? "" : filter.Nombre.ToLower()) && x.persona.correo.ToLower().Contains(filter.Correo == null ? "" : filter.Correo.ToLower()) && x.persona.cedula.ToLower().Contains(filter.Cedula == null ? "" : filter.Cedula.ToLower()) && (filter.Activo == -1 || (x.activo.Equals(filter.Activo == 1 ? true : false)))).ToList();
       foreach (var usuario in usuarios)
       {
         usuario.rolesxusuario = _context.rolesxusuario.Where(x => x.idusuario == usuario.id).Include(x => x.rol).ToList();
       }
       return usuarios;
-      //}
     }
 
     public User GetUserByIdPerson(long idPerson)

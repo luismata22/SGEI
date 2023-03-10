@@ -94,52 +94,14 @@ namespace SGEI.Repository
 
     public List<Role> GetRoles(RoleFilters filter)
     {
-      if (!String.IsNullOrEmpty(filter.Nombre) && filter.Activo > -1)
+      var roles = _context.roles.Where(x => x.nombre.ToLower().Contains(filter.Nombre == null ? "" : filter.Nombre.ToLower()) && (filter.Activo == -1 || x.activo == (filter.Activo == 1 ? true : false))).ToList();
+      foreach (var role in roles)
       {
-        var roles = _context.roles.Where(x => x.nombre.ToLower().Contains(filter.Nombre.ToLower()) && (filter.Activo == 1 ? true : false)).ToList();
-        foreach (var role in roles)
-        {
-          role.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
-            .Include(x => x.permisosxmodulo).ThenInclude(x => x.permiso)
-            .Include(x => x.permisosxmodulo).ThenInclude(x => x.modulo).ToList();
-        }
-        return roles;
+        role.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
+          .Include(x => x.permisosxmodulo).ThenInclude(x => x.permiso)
+          .Include(x => x.permisosxmodulo).ThenInclude(x => x.modulo).ToList();
       }
-      else if (String.IsNullOrEmpty(filter.Nombre) && filter.Activo > -1)
-      {
-        var roles = _context.roles.Where(x => x.activo == (filter.Activo == 1 ? true : false)).ToList();
-        foreach (var role in roles)
-        {
-          role.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
-            .Include(x => x.permisosxmodulo).ThenInclude(x => x.permiso)
-            .Include(x => x.permisosxmodulo).ThenInclude(x => x.modulo).ToList();
-        }
-        return roles;
-      }
-      else if (!String.IsNullOrEmpty(filter.Nombre) && filter.Activo == -1)
-      {
-        var roles = _context.roles.Where(x => x.nombre.ToLower().Contains(filter.Nombre.ToLower())).ToList();
-        foreach (var role in roles)
-        {
-          role.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
-            .Include(x => x.permisosxmodulo).ThenInclude(x => x.permiso)
-            .Include(x => x.permisosxmodulo).ThenInclude(x => x.modulo).ToList();
-        }
-        return roles;
-      }
-      else
-      {
-        var roles = _context.roles.ToList();
-        foreach (var role in roles)
-        {
-          role.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
-            .Include(x => x.permisosxmodulo).ThenInclude(x => x.permiso)
-            .Include(x => x.permisosxmodulo).ThenInclude(x => x.modulo).ToList();
-
-          //role.permisosxmoduloxrole = role.permisosxmoduloxrole.GroupBy(x => x.permisosxmodulo.modulo).Select(d => d.First()).ToList();
-        }
-        return roles;
-      }
+      return roles;
     }
   }
 }
