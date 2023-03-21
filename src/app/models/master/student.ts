@@ -1,3 +1,4 @@
+import { FilesxStudents } from "./filesxstudents";
 import { Person } from "./person";
 import { PersonxStudent } from "./personsxstudent";
 import { TypeCourse } from "./typecourse";
@@ -12,4 +13,5 @@ export class Student{
     tipocurso: TypeCourse = new TypeCourse();
     fechanacimientoString: string = "";
     activo: boolean = false;
+    archivosxestudiante: FilesxStudents[] = [];
 }

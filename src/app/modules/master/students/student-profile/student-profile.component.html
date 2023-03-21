@@ -3,7 +3,7 @@
         <app-card cardTitle="Datos del estudiante">
             <div class="row">
                 <div class="col-sm-3">
-                    <img src="https://www.w3schools.com/howto/img_avatar.png" style="width: 200px;">
+                    <img [src]="imageProfile" style="width: 200px;" runat="server">
                 </div>
                 <div class="col-sm-9">
                     <h4>{{student.nombres + " " + student.apellidos}}</h4>
@@ -15,7 +15,7 @@
                     <hr>
                     <ul ngbNav #nav="ngbNav" class="nav-tabs">
                         <li [ngbNavItem]="1">
-                            <a ngbNavLink>One</a>
+                            <a ngbNavLink>Datos</a>
                             <ng-template ngbNavContent>
                                 <p>
                                     Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth

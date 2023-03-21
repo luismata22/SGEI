@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FilesxStudents } from 'src/app/models/master/filesxstudents';
 import { Person } from 'src/app/models/master/person';
 import { Student } from 'src/app/models/master/student';
 import { StudentFilters } from 'src/app/models/master/student-filters';
@@ -43,6 +44,11 @@ export class StudentsService {
 
   getPersons() {
     return this.httpClient.get<Person[]>(`${environment.API_BASE_URL}/Person/GetPersons`)
+      .toPromise();
+  }
+
+  deleteFile(file: FilesxStudents){
+    return this.httpClient.post<number>(`${environment.API_BASE_URL}/Student/DeleteFile`, file)
       .toPromise();
   }
 }

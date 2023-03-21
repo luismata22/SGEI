@@ -36,5 +36,7 @@ namespace SGEI.Context
     public DbSet<Person> personas => Set<Person>();
     //Personas x estudiante
     public DbSet<PersonsxStudent> personasxestudiante => Set<PersonsxStudent>();
+    //Archivos por estudiante
+    public DbSet<FilesxStudents> archivosxestudiante => Set<FilesxStudents>();
   }
 }

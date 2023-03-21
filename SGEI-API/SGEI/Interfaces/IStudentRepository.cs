@@ -13,5 +13,11 @@ namespace SGEI.Interfaces
     Student GetStudentById(long idStudent);
 
     long Post(Student model);
+
+    long UploadFiles(FilesxStudents filesxStudent);
+
+    List<FilesxStudents> GetFileByIdStudent(long idStudent);
+
+    long DeleteFile(FilesxStudents filesxStudent);
   }
 }

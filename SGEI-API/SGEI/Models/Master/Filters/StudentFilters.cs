@@ -2,10 +2,10 @@ namespace SGEI.Models.Master.Filters
 {
   public class StudentFilters
   {
-    public string Nombre { get; set; }
+    public string nombre { get; set; }
 
-    public string Apellido { get; set; }
+    public string apellido { get; set; }
 
-    public int IdTipoCurso { get; set; }
+    public int idtipocurso { get; set; }
   }
 }

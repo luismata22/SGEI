@@ -98,7 +98,7 @@
                                 <td>{{personasxestudiante.persona.correo}}</td>
                                 <td>{{personasxestudiante.persona.direccion}}</td>
                                 <td><input type="checkbox" [(ngModel)]="personasxestudiante.esrepresentante"
-                                        (change)="checkSelected(personasxestudiante);" id="exampleCheck1"></td>
+                                        (change)="checkSelected(personasxestudiante)" id="exampleCheck1"></td>
                                 <td><button type="button" class="btn btn-icon btn-primary"
                                         (click)="editModal(addPersonModal, personasxestudiante.persona)"
                                         style="margin-top: 5px; margin-left: 10px;"><i
@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <table *ngIf="uploader.queue.length > 0" datatable class="row-border hover" [dtOptions]="dtOptions">
+                    <table *ngIf="student != undefined && student.archivosxestudiante.length > 0" datatable class="row-border hover" [dtOptions]="dtOptions">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -135,13 +135,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let file of uploader.queue">
-                                <td>{{file?.file?.name}}</td>
-                                <td>{{file?.file?.size/1024/1024 | number:'.2'}}</td>
-                                <td><input type="checkbox" id="exampleCheck1"></td>
+                            <tr *ngFor="let file of student.archivosxestudiante">
+                                <td>{{file?.nombre}}</td>
+                                <td>{{file?.peso/1024/1024 | number:'.2'}}</td>
+                                <td><input type="checkbox" id="exampleCheck1" [(ngModel)]="file.indperfil"
+                                    (change)="checkProfileSelected(file)"></td>
                                 <td><button type="button" class="btn btn-icon btn-danger"
                                         style="margin-top: 5px; margin-left: 10px;"><i
-                                            class="feather icon-trash-2"></i></button></td>
+                                            class="feather icon-trash-2" (click)="confirmationDeleteFile(confirmationDeleteFileModal, file)"></i></button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -270,6 +271,18 @@
     </div>
     <div class="app-modal-footer">
         <button type="button" class="btn btn-primary" (click)="savePerson(searchPersonModal)">Guardar</button>
-
     </div>
 </app-ui-modal>
+
+<app-ui-modal #confirmationDeleteFileModal [containerClick]="false">
+    <div class="app-modal-header">
+      <h5 class="modal-title">Eliminar</h5>
+    </div>
+    <div class="app-modal-body">
+      <p>¿Desea eliminar este archivo?</p>
+    </div>
+    <div class="app-modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="confirmationDeleteFileModal.hide()">No</button>
+      <button type="button" class="btn btn-primary" (click)="deleteFile(confirmationDeleteFileModal, fileSelected)" style="margin-left: 10px;">Si</button>
+    </div>
+  </app-ui-modal>

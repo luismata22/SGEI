@@ -68,7 +68,7 @@ namespace SGEI.Repository
       //}
       //else
       //{
-      var estudiantes = _context.estudiantes.Include(x => x.tipocurso).ToList();
+      var estudiantes = _context.estudiantes.Where(x => x.nombres.ToLower().Contains(filter.nombre == null ? "" : filter.nombre.ToLower()) && x.apellidos.ToLower().Contains(filter.apellido == null ? "" : filter.apellido.ToLower()) && (filter.idtipocurso == -1 || x.idtipocurso == filter.idtipocurso)).Include(x => x.tipocurso).ToList();
       //foreach (var estudiante in estudiantes)
       //{
       //estudiante.permisosxmoduloxrole = _context.permisosxmoduloxroles.Where(x => x.idrol == role.id)
@@ -85,6 +85,7 @@ namespace SGEI.Repository
     {
       var student = _context.estudiantes.Where(x => x.id.Equals(idStudent)).Include(x => x.tipocurso).FirstOrDefault();
       student.personasxestudiante = _context.personasxestudiante.Where(x => x.idestudiante.Equals(student.id)).Include(p => p.persona).ToList();
+      student.archivosxestudiante = _context.archivosxestudiante.Where(x => x.idestudiante.Equals(student.id)).ToList();
       return student;
     }
 
@@ -198,6 +199,23 @@ namespace SGEI.Repository
               }
             }
           }
+          if (model.archivosxestudiante.Count > 0)
+          {
+            foreach (var file in model.archivosxestudiante.Where(x => x.id > 0))
+            {
+              var filesxstudents = new FilesxStudents
+              {
+                id = file.id,
+                idestudiante = file.idestudiante,
+                nombre = file.nombre,
+                peso = file.peso,
+                indperfil = file.indperfil,
+              };
+              _context.ChangeTracker.Clear();
+              _context.archivosxestudiante.Update(filesxstudents);
+              _context.SaveChanges();
+            }
+          }
         }
         else
         {
@@ -299,6 +317,67 @@ namespace SGEI.Repository
       catch (System.Exception ex)
       {
         throw ex;
+      }
+    }
+
+    public long UploadFiles(FilesxStudents filesxStudent)
+    {
+      try
+      {
+        if (filesxStudent.id > 0)
+        {
+          var model = new FilesxStudents
+          {
+            id = filesxStudent.id,
+            idestudiante = filesxStudent.idestudiante,
+            nombre = filesxStudent.file.FileName,
+            peso = filesxStudent.file.Length,
+            indperfil = filesxStudent.indperfil,
+          };
+          _context.ChangeTracker.Clear();
+          _context.archivosxestudiante.Update(model);
+          _context.SaveChanges();
+        }
+        else
+        {
+          var model = new FilesxStudents
+          {
+            idestudiante = filesxStudent.idestudiante,
+            nombre = filesxStudent.file.FileName,
+            peso = filesxStudent.file.Length,
+            indperfil = filesxStudent.indperfil,
+          };
+          _context.ChangeTracker.Clear();
+          _context.archivosxestudiante.Add(model);
+          _context.SaveChanges();
+          filesxStudent.id = model.id;
+        }
+        return filesxStudent.id;
+      }
+      catch (Exception ex)
+      {
+        return -1;
+      }
+    }
+
+    public List<FilesxStudents> GetFileByIdStudent(long idStudent)
+    {
+      var files = _context.archivosxestudiante.Where(x => x.idestudiante.Equals(idStudent)).ToList();
+      return files;
+    }
+
+    public long DeleteFile(FilesxStudents filesxStudent)
+    {
+      try
+      {
+        _context.ChangeTracker.Clear();
+        _context.archivosxestudiante.Remove(filesxStudent);
+        _context.SaveChanges();
+        return filesxStudent.id;
+      }
+      catch (Exception)
+      {
+        return -1;
       }
     }
   }

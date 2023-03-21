@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { PersonxStudent } from 'src/app/models/master/personsxstudent';
 import { DatePipe } from '@angular/common';
+import { FilesxStudents } from 'src/app/models/master/filesxstudents';
 
 @Component({
   selector: 'app-students-new',
@@ -29,14 +30,25 @@ export class StudentsNewComponent implements OnInit {
   personsList: Person[] = [];
   regexEmail = new RegExp("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
   validateEmail: boolean = true;
+  fileSelected: FilesxStudents = new FilesxStudents();
 
   public uploader: FileUploader = new FileUploader({
-    url: 'http://localhost:3000/fileupload/',
+    url: 'http://localhost:34337/Student/UploadFiles',
+    //headers: [{ name: 'Content-Type', value: 'multipart/form-data' }],
     disableMultipart: false,
-    autoUpload: true,
+    autoUpload: false,
     method: 'post',
-    itemAlias: 'attachment',
-    allowedFileType: ['image', 'pdf']
+    allowedFileType: ['image', 'pdf'],
+    formatDataFunction: async (item) => {
+      return new Promise( (resolve, reject) => {
+        resolve({
+          name: item._file.name,
+          length: item._file.size,
+          contentType: item._file.type,
+          date: new Date()
+        });
+      });
+    }
   });
 
   constructor(private studentsService: StudentsService,
@@ -142,6 +154,12 @@ export class StudentsNewComponent implements OnInit {
             .then(data => {
               this.saveStu = false;
               if (data > 0) {
+                this.student.id = data;
+                this.uploader.onBuildItemForm = (item, form) => {
+                  form.append('idestudiante', data);
+                  //form.append('file', item);
+                };
+                this.uploader.uploadAll();
                 this.notificationService.showSuccess("Estudiante guardado exitosamente", "Éxito")
               } else if (data == -1) {
                 this.notificationService.showWarning("Estudiante ya registrado", "Alerta")
@@ -198,12 +216,45 @@ export class StudentsNewComponent implements OnInit {
 
   public onFileSelected(event: EventEmitter<File[]>) {
     const file: File = event[0];
-    console.log(file);
+    var list: FilesxStudents[] = [];
+    var files: FilesxStudents = {
+      id: -1,
+      idestudiante: this.student.id,
+      nombre: file?.name,
+      peso: file?.size,
+      indperfil: false
+    }
+    list.push(files);
+    this.student.archivosxestudiante = [...this.student.archivosxestudiante, ...list]
   }
 
   checkSelected(personxStudent: PersonxStudent) {
     this.student.personasxestudiante.filter(x => x != personxStudent).map(x => {
       x.esrepresentante = false;
+    })
+  }
+
+  checkProfileSelected(file: FilesxStudents){
+    this.student.archivosxestudiante.filter(x => x != file).map(x => {
+      x.indperfil = false;
+    })
+  }
+
+  confirmationDeleteFile(modal, file: FilesxStudents){
+    this.fileSelected = {...file};
+    modal.show();
+  }
+
+  deleteFile(modal, file: FilesxStudents){
+    this.studentsService.deleteFile({ ...file })
+    .then(data => {
+      if(data > 0){
+        modal.hide();
+        this.getStudent(this.student.id);
+        this.notificationService.showSuccess("Archivo eliminado exitosamente", "Éxito")
+      }else{
+        this.notificationService.showError("Ha ocurrido un error al eliminar el archivo", "Error")
+      }
     })
   }
 }

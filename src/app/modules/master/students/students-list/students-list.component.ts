@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Student } from 'src/app/models/master/student';
 import { StudentFilters } from 'src/app/models/master/student-filters';
+import { TypeCourse } from 'src/app/models/master/typecourse';
 import { dtOptions } from 'src/app/modules/utils/dataTableOptions';
 import { NotificationService } from 'src/app/modules/utils/notification.service';
 import { StudentsService } from '../shared/students.service';
@@ -16,6 +17,7 @@ export class StudentsListComponent implements OnInit {
   filter: StudentFilters = new StudentFilters();
   studentList: Student[] = [];
   dtOptions = dtOptions;
+  typeCourseList: TypeCourse[] = [];
   
   constructor(private router: Router,
     private studentsService: StudentsService,
@@ -23,6 +25,7 @@ export class StudentsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStudents();
+    this.getTypeCourses();
   }
 
   getStudents(){
@@ -30,6 +33,18 @@ export class StudentsListComponent implements OnInit {
       .then(data => {
         this.studentList = [];
         this.studentList = [...data];
+      })
+      .catch(error => {
+        console.log(error)
+        this.notificationService.showError("Ha ocurrido un error", "Error")
+      });
+  }
+
+  getTypeCourses() {
+    this.studentsService.getTypeCourses()
+      .then(data => {
+        console.log(data);
+        this.typeCourseList = [...data];
       })
       .catch(error => {
         console.log(error)

@@ -2,41 +2,30 @@
   <div class="col-sm-12">
     <app-card cardTitle="Filtro">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <label for="name">Nombre</label>
-            <input type="text" class="form-control" id="name">
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-          </div>
-
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="email">Correo electrónico</label>
-            <input type="email" class="form-control" id="email">
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+            <input type="text" class="form-control" id="name" [(ngModel)]="filter.nombre" (keyup.enter)="getStudents()">
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
-            <label for="card">Cédula</label>
-            <input type="text" class="form-control" id="card">
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+            <label for="lastname">Apellido</label>
+            <input type="text" class="form-control" id="lastname" [(ngModel)]="filter.apellido" (keyup.enter)="getStudents()">
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
-            <label for="status">Estatus</label>
-            <select class="form-control" id="exampleFormControlSelect1">
-              <option value="-1">Todos</option>
-              <option value="1">Activo</option>
-              <option value="0">Inactivo</option>
+            <label for="email">Tipo de curso <span style="color: red">*</span></label>
+            <select class="form-control" [(ngModel)]="filter.idtipocurso" id="exampleFormControlSelect1">
+              <option [ngValue]="-1">Todos</option>
+              <option [ngValue]="typeCourse.id" *ngFor="let typeCourse of typeCourseList">
+                {{typeCourse.nombre}}</option>
             </select>
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
           </div>
         </div>
         <div class="col-md-12" style="text-align: right;">
-          <button type="button" class="btn btn-primary" style="margin-top: 5px;">Buscar</button>
+          <button type="button" class="btn btn-primary" style="margin-top: 5px;" (click)="getStudents()">Buscar</button>
           <button type="button" class="btn btn-success" (click)="newStudent()"
             style="margin-top: 5px; margin-left: 10px;">Nuevo</button>
         </div>
@@ -66,7 +55,8 @@
                   style="margin-top: 5px; margin-left: 10px;" ngbTooltip="Ver perfil"><i
                     class="feather icon-eye"></i></button>
                 <button type="button" class="btn btn-icon btn-primary" (click)="editStudent(student)"
-                  style="margin-top: 5px; margin-left: 10px;"><i class="feather icon-edit" ngbTooltip="Editar"></i></button>
+                  style="margin-top: 5px; margin-left: 10px;"><i class="feather icon-edit"
+                    ngbTooltip="Editar"></i></button>
               </td>
             </tr>
           </tbody>

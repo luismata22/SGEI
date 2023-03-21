@@ -28,5 +28,7 @@ namespace SGEI.Models.Master
     public TypeCourse tipocurso { get; set; }
 
     public List<PersonsxStudent> personasxestudiante { get; set; }
+
+    public List<FilesxStudents> archivosxestudiante { get; set; }
   }
 }
